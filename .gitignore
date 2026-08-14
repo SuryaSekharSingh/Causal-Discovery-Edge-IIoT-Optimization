@@ -16,3 +16,6 @@ data/*.csv
 !data/.gitkeep
 !data/raw/.gitkeep
 !data/interim/.gitkeep
+
+__pycache__/
+*.pyc
