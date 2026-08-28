@@ -1,0 +1,669 @@
+{
+  "n_bootstraps": 12,
+  "minimum_stability": 0.5,
+  "edges": {
+    "active_nodes->average_degree": {
+      "source": "active_nodes",
+      "target": "average_degree",
+      "selection_count": 11,
+      "selection_frequency": 0.9166666666666666,
+      "stable": true
+    },
+    "active_nodes->mean_interarrival_time": {
+      "source": "active_nodes",
+      "target": "mean_interarrival_time",
+      "selection_count": 4,
+      "selection_frequency": 0.3333333333333333,
+      "stable": false
+    },
+    "active_nodes->mean_packet_size_proxy": {
+      "source": "active_nodes",
+      "target": "mean_packet_size_proxy",
+      "selection_count": 1,
+      "selection_frequency": 0.08333333333333333,
+      "stable": false
+    },
+    "active_nodes->std_interarrival_time": {
+      "source": "active_nodes",
+      "target": "std_interarrival_time",
+      "selection_count": 6,
+      "selection_frequency": 0.5,
+      "stable": true
+    },
+    "active_nodes->total_bytes_proxy": {
+      "source": "active_nodes",
+      "target": "total_bytes_proxy",
+      "selection_count": 1,
+      "selection_frequency": 0.08333333333333333,
+      "stable": false
+    },
+    "active_nodes->total_packets": {
+      "source": "active_nodes",
+      "target": "total_packets",
+      "selection_count": 1,
+      "selection_frequency": 0.08333333333333333,
+      "stable": false
+    },
+    "average_degree->active_nodes": {
+      "source": "average_degree",
+      "target": "active_nodes",
+      "selection_count": 1,
+      "selection_frequency": 0.08333333333333333,
+      "stable": false
+    },
+    "average_degree->mean_interarrival_time": {
+      "source": "average_degree",
+      "target": "mean_interarrival_time",
+      "selection_count": 2,
+      "selection_frequency": 0.16666666666666666,
+      "stable": false
+    },
+    "average_degree->std_interarrival_time": {
+      "source": "average_degree",
+      "target": "std_interarrival_time",
+      "selection_count": 3,
+      "selection_frequency": 0.25,
+      "stable": false
+    },
+    "average_degree->total_packets": {
+      "source": "average_degree",
+      "target": "total_packets",
+      "selection_count": 1,
+      "selection_frequency": 0.08333333333333333,
+      "stable": false
+    },
+    "average_peer_count->active_nodes": {
+      "source": "average_peer_count",
+      "target": "active_nodes",
+      "selection_count": 12,
+      "selection_frequency": 1.0,
+      "stable": true
+    },
+    "average_peer_count->average_degree": {
+      "source": "average_peer_count",
+      "target": "average_degree",
+      "selection_count": 12,
+      "selection_frequency": 1.0,
+      "stable": true
+    },
+    "average_peer_count->mean_interarrival_time": {
+      "source": "average_peer_count",
+      "target": "mean_interarrival_time",
+      "selection_count": 1,
+      "selection_frequency": 0.08333333333333333,
+      "stable": false
+    },
+    "average_peer_count->std_interarrival_time": {
+      "source": "average_peer_count",
+      "target": "std_interarrival_time",
+      "selection_count": 1,
+      "selection_frequency": 0.08333333333333333,
+      "stable": false
+    },
+    "average_peer_count->total_packets": {
+      "source": "average_peer_count",
+      "target": "total_packets",
+      "selection_count": 1,
+      "selection_frequency": 0.08333333333333333,
+      "stable": false
+    },
+    "mean_interarrival_time->average_degree": {
+      "source": "mean_interarrival_time",
+      "target": "average_degree",
+      "selection_count": 2,
+      "selection_frequency": 0.16666666666666666,
+      "stable": false
+    },
+    "mean_interarrival_time->std_interarrival_time": {
+      "source": "mean_interarrival_time",
+      "target": "std_interarrival_time",
+      "selection_count": 6,
+      "selection_frequency": 0.5,
+      "stable": true
+    },
+    "mean_packet_size_proxy->active_nodes": {
+      "source": "mean_packet_size_proxy",
+      "target": "active_nodes",
+      "selection_count": 7,
+      "selection_frequency": 0.5833333333333334,
+      "stable": true
+    },
+    "mean_packet_size_proxy->average_degree": {
+      "source": "mean_packet_size_proxy",
+      "target": "average_degree",
+      "selection_count": 2,
+      "selection_frequency": 0.16666666666666666,
+      "stable": false
+    },
+    "mean_packet_size_proxy->average_peer_count": {
+      "source": "mean_packet_size_proxy",
+      "target": "average_peer_count",
+      "selection_count": 1,
+      "selection_frequency": 0.08333333333333333,
+      "stable": false
+    },
+    "mean_packet_size_proxy->mean_interarrival_time": {
+      "source": "mean_packet_size_proxy",
+      "target": "mean_interarrival_time",
+      "selection_count": 6,
+      "selection_frequency": 0.5,
+      "stable": true
+    },
+    "mean_packet_size_proxy->std_interarrival_time": {
+      "source": "mean_packet_size_proxy",
+      "target": "std_interarrival_time",
+      "selection_count": 5,
+      "selection_frequency": 0.4166666666666667,
+      "stable": false
+    },
+    "mean_packet_size_proxy->std_packet_size_proxy": {
+      "source": "mean_packet_size_proxy",
+      "target": "std_packet_size_proxy",
+      "selection_count": 12,
+      "selection_frequency": 1.0,
+      "stable": true
+    },
+    "mean_packet_size_proxy->total_bytes_proxy": {
+      "source": "mean_packet_size_proxy",
+      "target": "total_bytes_proxy",
+      "selection_count": 4,
+      "selection_frequency": 0.3333333333333333,
+      "stable": false
+    },
+    "mean_packet_size_proxy->total_packets": {
+      "source": "mean_packet_size_proxy",
+      "target": "total_packets",
+      "selection_count": 6,
+      "selection_frequency": 0.5,
+      "stable": true
+    },
+    "std_interarrival_time->active_nodes": {
+      "source": "std_interarrival_time",
+      "target": "active_nodes",
+      "selection_count": 2,
+      "selection_frequency": 0.16666666666666666,
+      "stable": false
+    },
+    "std_interarrival_time->mean_interarrival_time": {
+      "source": "std_interarrival_time",
+      "target": "mean_interarrival_time",
+      "selection_count": 6,
+      "selection_frequency": 0.5,
+      "stable": true
+    },
+    "std_interarrival_time->total_packets": {
+      "source": "std_interarrival_time",
+      "target": "total_packets",
+      "selection_count": 2,
+      "selection_frequency": 0.16666666666666666,
+      "stable": false
+    },
+    "std_packet_size_proxy->active_nodes": {
+      "source": "std_packet_size_proxy",
+      "target": "active_nodes",
+      "selection_count": 11,
+      "selection_frequency": 0.9166666666666666,
+      "stable": true
+    },
+    "std_packet_size_proxy->average_degree": {
+      "source": "std_packet_size_proxy",
+      "target": "average_degree",
+      "selection_count": 4,
+      "selection_frequency": 0.3333333333333333,
+      "stable": false
+    },
+    "std_packet_size_proxy->mean_interarrival_time": {
+      "source": "std_packet_size_proxy",
+      "target": "mean_interarrival_time",
+      "selection_count": 6,
+      "selection_frequency": 0.5,
+      "stable": true
+    },
+    "std_packet_size_proxy->std_interarrival_time": {
+      "source": "std_packet_size_proxy",
+      "target": "std_interarrival_time",
+      "selection_count": 5,
+      "selection_frequency": 0.4166666666666667,
+      "stable": false
+    },
+    "std_packet_size_proxy->total_bytes_proxy": {
+      "source": "std_packet_size_proxy",
+      "target": "total_bytes_proxy",
+      "selection_count": 1,
+      "selection_frequency": 0.08333333333333333,
+      "stable": false
+    },
+    "std_packet_size_proxy->total_packets": {
+      "source": "std_packet_size_proxy",
+      "target": "total_packets",
+      "selection_count": 3,
+      "selection_frequency": 0.25,
+      "stable": false
+    },
+    "total_bytes_proxy->active_nodes": {
+      "source": "total_bytes_proxy",
+      "target": "active_nodes",
+      "selection_count": 10,
+      "selection_frequency": 0.8333333333333334,
+      "stable": true
+    },
+    "total_bytes_proxy->average_degree": {
+      "source": "total_bytes_proxy",
+      "target": "average_degree",
+      "selection_count": 10,
+      "selection_frequency": 0.8333333333333334,
+      "stable": true
+    },
+    "total_bytes_proxy->average_peer_count": {
+      "source": "total_bytes_proxy",
+      "target": "average_peer_count",
+      "selection_count": 9,
+      "selection_frequency": 0.75,
+      "stable": true
+    },
+    "total_bytes_proxy->mean_interarrival_time": {
+      "source": "total_bytes_proxy",
+      "target": "mean_interarrival_time",
+      "selection_count": 6,
+      "selection_frequency": 0.5,
+      "stable": true
+    },
+    "total_bytes_proxy->mean_packet_size_proxy": {
+      "source": "total_bytes_proxy",
+      "target": "mean_packet_size_proxy",
+      "selection_count": 8,
+      "selection_frequency": 0.6666666666666666,
+      "stable": true
+    },
+    "total_bytes_proxy->std_interarrival_time": {
+      "source": "total_bytes_proxy",
+      "target": "std_interarrival_time",
+      "selection_count": 4,
+      "selection_frequency": 0.3333333333333333,
+      "stable": false
+    },
+    "total_bytes_proxy->std_packet_size_proxy": {
+      "source": "total_bytes_proxy",
+      "target": "std_packet_size_proxy",
+      "selection_count": 1,
+      "selection_frequency": 0.08333333333333333,
+      "stable": false
+    },
+    "total_bytes_proxy->total_packets": {
+      "source": "total_bytes_proxy",
+      "target": "total_packets",
+      "selection_count": 6,
+      "selection_frequency": 0.5,
+      "stable": true
+    },
+    "total_packets->active_nodes": {
+      "source": "total_packets",
+      "target": "active_nodes",
+      "selection_count": 2,
+      "selection_frequency": 0.16666666666666666,
+      "stable": false
+    },
+    "total_packets->average_degree": {
+      "source": "total_packets",
+      "target": "average_degree",
+      "selection_count": 11,
+      "selection_frequency": 0.9166666666666666,
+      "stable": true
+    },
+    "total_packets->average_peer_count": {
+      "source": "total_packets",
+      "target": "average_peer_count",
+      "selection_count": 11,
+      "selection_frequency": 0.9166666666666666,
+      "stable": true
+    },
+    "total_packets->mean_interarrival_time": {
+      "source": "total_packets",
+      "target": "mean_interarrival_time",
+      "selection_count": 4,
+      "selection_frequency": 0.3333333333333333,
+      "stable": false
+    },
+    "total_packets->mean_packet_size_proxy": {
+      "source": "total_packets",
+      "target": "mean_packet_size_proxy",
+      "selection_count": 6,
+      "selection_frequency": 0.5,
+      "stable": true
+    },
+    "total_packets->std_interarrival_time": {
+      "source": "total_packets",
+      "target": "std_interarrival_time",
+      "selection_count": 6,
+      "selection_frequency": 0.5,
+      "stable": true
+    },
+    "total_packets->std_packet_size_proxy": {
+      "source": "total_packets",
+      "target": "std_packet_size_proxy",
+      "selection_count": 2,
+      "selection_frequency": 0.16666666666666666,
+      "stable": false
+    },
+    "total_packets->total_bytes_proxy": {
+      "source": "total_packets",
+      "target": "total_bytes_proxy",
+      "selection_count": 6,
+      "selection_frequency": 0.5,
+      "stable": true
+    }
+  },
+  "runs": [
+    {
+      "seed": 11,
+      "selected_edges": [
+        "total_packets->total_bytes_proxy",
+        "total_packets->mean_packet_size_proxy",
+        "total_packets->std_packet_size_proxy",
+        "total_packets->mean_interarrival_time",
+        "total_bytes_proxy->mean_packet_size_proxy",
+        "total_bytes_proxy->mean_interarrival_time",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->mean_interarrival_time",
+        "std_packet_size_proxy->mean_interarrival_time",
+        "mean_interarrival_time->std_interarrival_time",
+        "active_nodes->total_packets",
+        "active_nodes->total_bytes_proxy",
+        "active_nodes->mean_packet_size_proxy",
+        "active_nodes->mean_interarrival_time",
+        "active_nodes->average_degree",
+        "average_degree->total_packets",
+        "average_degree->mean_interarrival_time",
+        "average_peer_count->total_packets",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    },
+    {
+      "seed": 23,
+      "selected_edges": [
+        "total_packets->mean_interarrival_time",
+        "total_packets->average_degree",
+        "total_packets->average_peer_count",
+        "total_bytes_proxy->total_packets",
+        "total_bytes_proxy->mean_packet_size_proxy",
+        "total_bytes_proxy->std_packet_size_proxy",
+        "total_bytes_proxy->mean_interarrival_time",
+        "total_bytes_proxy->active_nodes",
+        "mean_packet_size_proxy->total_packets",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->mean_interarrival_time",
+        "std_packet_size_proxy->total_packets",
+        "std_packet_size_proxy->mean_interarrival_time",
+        "std_packet_size_proxy->active_nodes",
+        "mean_interarrival_time->std_interarrival_time",
+        "active_nodes->mean_interarrival_time",
+        "active_nodes->average_degree",
+        "average_degree->mean_interarrival_time",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    },
+    {
+      "seed": 37,
+      "selected_edges": [
+        "total_packets->total_bytes_proxy",
+        "total_packets->mean_packet_size_proxy",
+        "total_packets->std_interarrival_time",
+        "total_packets->average_degree",
+        "total_packets->average_peer_count",
+        "total_bytes_proxy->mean_packet_size_proxy",
+        "total_bytes_proxy->std_interarrival_time",
+        "total_bytes_proxy->active_nodes",
+        "total_bytes_proxy->average_degree",
+        "total_bytes_proxy->average_peer_count",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->std_interarrival_time",
+        "mean_packet_size_proxy->active_nodes",
+        "std_packet_size_proxy->active_nodes",
+        "std_interarrival_time->mean_interarrival_time",
+        "active_nodes->std_interarrival_time",
+        "active_nodes->average_degree",
+        "average_degree->std_interarrival_time",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    },
+    {
+      "seed": 41,
+      "selected_edges": [
+        "total_packets->std_interarrival_time",
+        "total_packets->average_degree",
+        "total_packets->average_peer_count",
+        "total_bytes_proxy->total_packets",
+        "total_bytes_proxy->std_interarrival_time",
+        "total_bytes_proxy->active_nodes",
+        "total_bytes_proxy->average_degree",
+        "total_bytes_proxy->average_peer_count",
+        "mean_packet_size_proxy->total_packets",
+        "mean_packet_size_proxy->total_bytes_proxy",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->std_interarrival_time",
+        "std_packet_size_proxy->total_packets",
+        "std_packet_size_proxy->std_interarrival_time",
+        "std_packet_size_proxy->active_nodes",
+        "std_interarrival_time->mean_interarrival_time",
+        "active_nodes->std_interarrival_time",
+        "active_nodes->average_degree",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    },
+    {
+      "seed": 53,
+      "selected_edges": [
+        "total_packets->mean_interarrival_time",
+        "total_packets->active_nodes",
+        "total_packets->average_degree",
+        "total_packets->average_peer_count",
+        "total_bytes_proxy->total_packets",
+        "total_bytes_proxy->mean_interarrival_time",
+        "total_bytes_proxy->active_nodes",
+        "total_bytes_proxy->average_degree",
+        "total_bytes_proxy->average_peer_count",
+        "mean_packet_size_proxy->total_packets",
+        "mean_packet_size_proxy->total_bytes_proxy",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->mean_interarrival_time",
+        "mean_packet_size_proxy->average_peer_count",
+        "std_packet_size_proxy->mean_interarrival_time",
+        "std_packet_size_proxy->active_nodes",
+        "std_packet_size_proxy->average_degree",
+        "mean_interarrival_time->std_interarrival_time",
+        "active_nodes->mean_interarrival_time",
+        "active_nodes->average_degree",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    },
+    {
+      "seed": 67,
+      "selected_edges": [
+        "total_packets->total_bytes_proxy",
+        "total_packets->mean_packet_size_proxy",
+        "total_packets->std_interarrival_time",
+        "total_packets->average_degree",
+        "total_packets->average_peer_count",
+        "total_bytes_proxy->mean_packet_size_proxy",
+        "total_bytes_proxy->active_nodes",
+        "total_bytes_proxy->average_degree",
+        "total_bytes_proxy->average_peer_count",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->std_interarrival_time",
+        "mean_packet_size_proxy->active_nodes",
+        "mean_packet_size_proxy->average_degree",
+        "std_packet_size_proxy->std_interarrival_time",
+        "std_packet_size_proxy->active_nodes",
+        "mean_interarrival_time->average_degree",
+        "std_interarrival_time->mean_interarrival_time",
+        "active_nodes->std_interarrival_time",
+        "active_nodes->average_degree",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    },
+    {
+      "seed": 79,
+      "selected_edges": [
+        "total_packets->active_nodes",
+        "total_packets->average_degree",
+        "total_packets->average_peer_count",
+        "total_bytes_proxy->total_packets",
+        "total_bytes_proxy->mean_interarrival_time",
+        "total_bytes_proxy->average_degree",
+        "total_bytes_proxy->average_peer_count",
+        "mean_packet_size_proxy->total_packets",
+        "mean_packet_size_proxy->total_bytes_proxy",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->mean_interarrival_time",
+        "mean_packet_size_proxy->average_degree",
+        "std_packet_size_proxy->total_bytes_proxy",
+        "std_packet_size_proxy->mean_interarrival_time",
+        "std_packet_size_proxy->active_nodes",
+        "std_packet_size_proxy->average_degree",
+        "mean_interarrival_time->std_interarrival_time",
+        "mean_interarrival_time->average_degree",
+        "std_interarrival_time->total_packets",
+        "std_interarrival_time->active_nodes",
+        "average_degree->active_nodes",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    },
+    {
+      "seed": 83,
+      "selected_edges": [
+        "total_packets->total_bytes_proxy",
+        "total_packets->mean_packet_size_proxy",
+        "total_packets->std_packet_size_proxy",
+        "total_packets->mean_interarrival_time",
+        "total_packets->average_degree",
+        "total_packets->average_peer_count",
+        "total_bytes_proxy->mean_packet_size_proxy",
+        "total_bytes_proxy->mean_interarrival_time",
+        "total_bytes_proxy->active_nodes",
+        "total_bytes_proxy->average_degree",
+        "total_bytes_proxy->average_peer_count",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->mean_interarrival_time",
+        "mean_packet_size_proxy->active_nodes",
+        "std_packet_size_proxy->mean_interarrival_time",
+        "std_packet_size_proxy->active_nodes",
+        "mean_interarrival_time->std_interarrival_time",
+        "active_nodes->mean_interarrival_time",
+        "active_nodes->average_degree",
+        "average_peer_count->mean_interarrival_time",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    },
+    {
+      "seed": 97,
+      "selected_edges": [
+        "total_packets->total_bytes_proxy",
+        "total_packets->mean_packet_size_proxy",
+        "total_packets->std_interarrival_time",
+        "total_packets->average_degree",
+        "total_packets->average_peer_count",
+        "total_bytes_proxy->mean_packet_size_proxy",
+        "total_bytes_proxy->active_nodes",
+        "total_bytes_proxy->average_degree",
+        "total_bytes_proxy->average_peer_count",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->active_nodes",
+        "std_packet_size_proxy->std_interarrival_time",
+        "std_packet_size_proxy->active_nodes",
+        "std_interarrival_time->mean_interarrival_time",
+        "active_nodes->std_interarrival_time",
+        "active_nodes->average_degree",
+        "average_degree->std_interarrival_time",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    },
+    {
+      "seed": 101,
+      "selected_edges": [
+        "total_packets->total_bytes_proxy",
+        "total_packets->mean_packet_size_proxy",
+        "total_packets->std_interarrival_time",
+        "total_packets->average_degree",
+        "total_packets->average_peer_count",
+        "total_bytes_proxy->mean_packet_size_proxy",
+        "total_bytes_proxy->std_interarrival_time",
+        "total_bytes_proxy->active_nodes",
+        "total_bytes_proxy->average_degree",
+        "total_bytes_proxy->average_peer_count",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->std_interarrival_time",
+        "mean_packet_size_proxy->active_nodes",
+        "std_packet_size_proxy->std_interarrival_time",
+        "std_packet_size_proxy->active_nodes",
+        "std_packet_size_proxy->average_degree",
+        "std_interarrival_time->mean_interarrival_time",
+        "active_nodes->std_interarrival_time",
+        "active_nodes->average_degree",
+        "average_peer_count->std_interarrival_time",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    },
+    {
+      "seed": 113,
+      "selected_edges": [
+        "total_packets->average_degree",
+        "total_packets->average_peer_count",
+        "total_bytes_proxy->total_packets",
+        "total_bytes_proxy->mean_interarrival_time",
+        "total_bytes_proxy->active_nodes",
+        "total_bytes_proxy->average_degree",
+        "total_bytes_proxy->average_peer_count",
+        "mean_packet_size_proxy->total_packets",
+        "mean_packet_size_proxy->total_bytes_proxy",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->mean_interarrival_time",
+        "mean_packet_size_proxy->active_nodes",
+        "std_packet_size_proxy->mean_interarrival_time",
+        "std_packet_size_proxy->active_nodes",
+        "mean_interarrival_time->std_interarrival_time",
+        "std_interarrival_time->total_packets",
+        "std_interarrival_time->active_nodes",
+        "active_nodes->average_degree",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    },
+    {
+      "seed": 127,
+      "selected_edges": [
+        "total_packets->std_interarrival_time",
+        "total_packets->average_degree",
+        "total_packets->average_peer_count",
+        "total_bytes_proxy->total_packets",
+        "total_bytes_proxy->mean_packet_size_proxy",
+        "total_bytes_proxy->std_interarrival_time",
+        "total_bytes_proxy->active_nodes",
+        "total_bytes_proxy->average_degree",
+        "mean_packet_size_proxy->total_packets",
+        "mean_packet_size_proxy->std_packet_size_proxy",
+        "mean_packet_size_proxy->std_interarrival_time",
+        "mean_packet_size_proxy->active_nodes",
+        "std_packet_size_proxy->total_packets",
+        "std_packet_size_proxy->std_interarrival_time",
+        "std_packet_size_proxy->active_nodes",
+        "std_packet_size_proxy->average_degree",
+        "std_interarrival_time->mean_interarrival_time",
+        "active_nodes->std_interarrival_time",
+        "active_nodes->average_degree",
+        "average_degree->std_interarrival_time",
+        "average_peer_count->active_nodes",
+        "average_peer_count->average_degree"
+      ]
+    }
+  ]
+}

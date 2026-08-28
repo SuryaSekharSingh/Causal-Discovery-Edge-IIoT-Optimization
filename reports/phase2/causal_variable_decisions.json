@@ -1,0 +1,39 @@
+{
+  "used_features": [
+    "total_packets",
+    "total_bytes_proxy",
+    "mean_packet_size_proxy",
+    "std_packet_size_proxy",
+    "mean_interarrival_time",
+    "std_interarrival_time",
+    "active_nodes",
+    "average_degree",
+    "average_peer_count"
+  ],
+  "removed_features": [
+    {
+      "feature": "packet_rate",
+      "reason": "redundant_high_pearson_correlation",
+      "kept_feature": "total_packets",
+      "correlation": 1.0000000000000002
+    },
+    {
+      "feature": "byte_rate_proxy",
+      "reason": "redundant_high_pearson_correlation",
+      "kept_feature": "total_bytes_proxy",
+      "correlation": 0.9999999999999997
+    },
+    {
+      "feature": "active_edges",
+      "reason": "redundant_high_pearson_correlation",
+      "kept_feature": "active_nodes",
+      "correlation": 0.9999664327243659
+    },
+    {
+      "feature": "max_degree",
+      "reason": "redundant_high_pearson_correlation",
+      "kept_feature": "active_nodes",
+      "correlation": 0.999938465152418
+    }
+  ]
+}

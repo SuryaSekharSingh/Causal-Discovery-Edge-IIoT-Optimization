@@ -1,0 +1,46 @@
+{
+  "source": "Phase 1 PyTorch Geometric graph snapshots",
+  "labels_excluded": [
+    "Attack_label",
+    "Attack_type"
+  ],
+  "identifiers_excluded": [
+    "raw IP addresses",
+    "node_ids",
+    "edge_index"
+  ],
+  "high_dimensional_edge_features_excluded": true,
+  "window_seconds": 60,
+  "features": {
+    "total_packets": "Sum of Phase 1 edge packet_count aggregates in the graph window.",
+    "total_bytes_proxy": "Sum of Phase 1 edge byte_count_proxy aggregates in the graph window.",
+    "packet_rate": "total_packets divided by configured window_seconds.",
+    "byte_rate_proxy": "total_bytes_proxy divided by configured window_seconds.",
+    "mean_packet_size_proxy": "Packet-count weighted mean of Phase 1 edge mean_packet_size_proxy.",
+    "std_packet_size_proxy": "Packet-count weighted mean of Phase 1 edge std_packet_size_proxy.",
+    "mean_interarrival_time": "Packet-count weighted mean of Phase 1 edge mean_interarrival_time.",
+    "std_interarrival_time": "Packet-count weighted mean of Phase 1 edge std_interarrival_time.",
+    "active_nodes": "Number of nodes present in the PyG snapshot.",
+    "active_edges": "Number of directed edges present in the PyG snapshot.",
+    "average_degree": "Directed graph total degree average, computed as 2 * active_edges / active_nodes.",
+    "max_degree": "Maximum directed total degree among local nodes in the snapshot.",
+    "average_peer_count": "Mean inverse-transformed Phase 1 node peer_count aggregate."
+  },
+  "phase1_node_feature_order": [
+    "inbound_packets",
+    "inbound_bytes_proxy",
+    "outbound_packets",
+    "outbound_bytes_proxy",
+    "mean_packet_size_proxy",
+    "mean_interarrival_time",
+    "peer_count"
+  ],
+  "phase1_edge_aggregate_feature_order": [
+    "packet_count",
+    "byte_count_proxy",
+    "mean_packet_size_proxy",
+    "std_packet_size_proxy",
+    "mean_interarrival_time",
+    "std_interarrival_time"
+  ]
+}

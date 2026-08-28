@@ -1,0 +1,30 @@
+[
+  {
+    "action": "remove_unstable_edge",
+    "source": "total_packets",
+    "target": "mean_interarrival_time",
+    "weight": -0.42590438161573746,
+    "selection_frequency": 0.3333333333333333
+  },
+  {
+    "action": "remove_unstable_edge",
+    "source": "mean_packet_size_proxy",
+    "target": "total_bytes_proxy",
+    "weight": 0.8639708769141023,
+    "selection_frequency": 0.3333333333333333
+  },
+  {
+    "action": "remove_unstable_edge",
+    "source": "active_nodes",
+    "target": "mean_interarrival_time",
+    "weight": 0.1574984596092316,
+    "selection_frequency": 0.3333333333333333
+  },
+  {
+    "action": "remove_unstable_edge",
+    "source": "average_degree",
+    "target": "mean_interarrival_time",
+    "weight": -0.1107288609626621,
+    "selection_frequency": 0.16666666666666666
+  }
+]

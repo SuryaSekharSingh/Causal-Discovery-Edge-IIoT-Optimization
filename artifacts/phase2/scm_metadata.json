@@ -1,0 +1,384 @@
+{
+  "variables": [
+    "total_packets",
+    "total_bytes_proxy",
+    "mean_packet_size_proxy",
+    "std_packet_size_proxy",
+    "mean_interarrival_time",
+    "std_interarrival_time",
+    "active_nodes",
+    "average_degree",
+    "average_peer_count"
+  ],
+  "dag": {
+    "total_packets": [
+      {
+        "target": "average_degree",
+        "weight": 0.30522833618172673
+      },
+      {
+        "target": "average_peer_count",
+        "weight": 0.8407798223573621
+      }
+    ],
+    "total_bytes_proxy": [
+      {
+        "target": "total_packets",
+        "weight": 1.0712376024335042
+      },
+      {
+        "target": "mean_interarrival_time",
+        "weight": -0.44065575943177476
+      },
+      {
+        "target": "active_nodes",
+        "weight": 0.4840829122999404
+      },
+      {
+        "target": "average_degree",
+        "weight": -0.16719300823874994
+      },
+      {
+        "target": "average_peer_count",
+        "weight": -0.21813457050335064
+      }
+    ],
+    "mean_packet_size_proxy": [
+      {
+        "target": "total_packets",
+        "weight": -0.32242877255468216
+      },
+      {
+        "target": "std_packet_size_proxy",
+        "weight": 0.899734629887892
+      },
+      {
+        "target": "mean_interarrival_time",
+        "weight": 1.0720285389747766
+      },
+      {
+        "target": "active_nodes",
+        "weight": -0.10729366748204308
+      }
+    ],
+    "std_packet_size_proxy": [
+      {
+        "target": "mean_interarrival_time",
+        "weight": -0.4229686834979304
+      },
+      {
+        "target": "active_nodes",
+        "weight": -0.2848666514260185
+      }
+    ],
+    "mean_interarrival_time": [
+      {
+        "target": "std_interarrival_time",
+        "weight": 0.9679841190909023
+      }
+    ],
+    "std_interarrival_time": [],
+    "active_nodes": [
+      {
+        "target": "average_degree",
+        "weight": -0.6204563315857904
+      }
+    ],
+    "average_degree": [],
+    "average_peer_count": [
+      {
+        "target": "active_nodes",
+        "weight": 0.4930791616541043
+      },
+      {
+        "target": "average_degree",
+        "weight": 0.7503706351750096
+      }
+    ]
+  },
+  "equations": {
+    "total_packets": {
+      "variable": "total_packets",
+      "parents": [
+        "total_bytes_proxy",
+        "mean_packet_size_proxy"
+      ],
+      "coefficients": {
+        "total_bytes_proxy": 0.0027235109612918445,
+        "mean_packet_size_proxy": -0.7658947056617725
+      },
+      "intercept": 180.2518157812636,
+      "residual_mean": -6.712138020464415e-15,
+      "residual_std": 135.71303661151768,
+      "r2_train": 0.6789867060374322,
+      "model_type": "linear_regression"
+    },
+    "total_bytes_proxy": {
+      "variable": "total_bytes_proxy",
+      "parents": [],
+      "coefficients": {},
+      "intercept": 30131.539849704346,
+      "residual_mean": -1.7183073332388902e-12,
+      "residual_std": 101462.55763048411,
+      "r2_train": null,
+      "model_type": "linear_regression"
+    },
+    "mean_packet_size_proxy": {
+      "variable": "mean_packet_size_proxy",
+      "parents": [],
+      "coefficients": {},
+      "intercept": 53.41879323590158,
+      "residual_mean": 3.3560690102322074e-15,
+      "residual_std": 126.35565554344208,
+      "r2_train": null,
+      "model_type": "linear_regression"
+    },
+    "std_packet_size_proxy": {
+      "variable": "std_packet_size_proxy",
+      "parents": [
+        "mean_packet_size_proxy"
+      ],
+      "coefficients": {
+        "mean_packet_size_proxy": 0.8029680234386124
+      },
+      "intercept": 9.371054323374132,
+      "residual_mean": -9.648698404417597e-15,
+      "residual_std": 36.10920643919058,
+      "r2_train": 0.8875767964555608,
+      "model_type": "linear_regression"
+    },
+    "mean_interarrival_time": {
+      "variable": "mean_interarrival_time",
+      "parents": [
+        "total_bytes_proxy",
+        "mean_packet_size_proxy",
+        "std_packet_size_proxy"
+      ],
+      "coefficients": {
+        "total_bytes_proxy": -1.82916110465954e-05,
+        "mean_packet_size_proxy": 0.026382291828263668,
+        "std_packet_size_proxy": -0.01582187684973154
+      },
+      "intercept": 1.5647431190438288,
+      "residual_mean": -5.243857828487824e-17,
+      "residual_std": 1.8410968712033302,
+      "r2_train": 0.25873860588109443,
+      "model_type": "linear_regression"
+    },
+    "std_interarrival_time": {
+      "variable": "std_interarrival_time",
+      "parents": [
+        "mean_interarrival_time"
+      ],
+      "coefficients": {
+        "mean_interarrival_time": 0.9815688535881106
+      },
+      "intercept": 0.13050982916853604,
+      "residual_mean": -1.4092867914061027e-16,
+      "residual_std": 0.40211716122665275,
+      "r2_train": 0.964597973343731,
+      "model_type": "linear_regression"
+    },
+    "active_nodes": {
+      "variable": "active_nodes",
+      "parents": [
+        "total_bytes_proxy",
+        "mean_packet_size_proxy",
+        "std_packet_size_proxy",
+        "average_peer_count"
+      ],
+      "coefficients": {
+        "total_bytes_proxy": 0.0004179589939970489,
+        "mean_packet_size_proxy": -0.10958546792774519,
+        "std_packet_size_proxy": -0.18749345428627573,
+        "average_peer_count": 195.33540237159556
+      },
+      "intercept": -206.76675566116774,
+      "residual_mean": 5.369710416371532e-14,
+      "residual_std": 51.0450818978547,
+      "r2_train": 0.470387653995061,
+      "model_type": "linear_regression"
+    },
+    "average_degree": {
+      "variable": "average_degree",
+      "parents": [
+        "total_packets",
+        "total_bytes_proxy",
+        "active_nodes",
+        "average_peer_count"
+      ],
+      "coefficients": {
+        "total_packets": 0.000412776322163198,
+        "total_bytes_proxy": -4.046056712769607e-07,
+        "active_nodes": -0.002650619843897696,
+        "average_peer_count": 1.1764628345576946
+      },
+      "intercept": 0.7551928515732322,
+      "residual_mean": 1.2945774014079316e-16,
+      "residual_std": 0.18692976178946638,
+      "r2_train": 0.5568404109659673,
+      "model_type": "linear_regression"
+    },
+    "average_peer_count": {
+      "variable": "average_peer_count",
+      "parents": [
+        "total_packets",
+        "total_bytes_proxy"
+      ],
+      "coefficients": {
+        "total_packets": 0.0006831800668443142,
+        "total_bytes_proxy": -4.863325337246044e-07
+      },
+      "intercept": 1.0016014223135954,
+      "residual_mean": -1.1470938999817115e-16,
+      "residual_std": 0.1318734119760616,
+      "r2_train": 0.483632479187282,
+      "model_type": "linear_regression"
+    }
+  },
+  "fit_quality": {
+    "train": {
+      "total_packets": {
+        "mae": 103.0634710406891,
+        "r2": 0.6789867060374322
+      },
+      "total_bytes_proxy": {
+        "mae": 51167.445120495555,
+        "r2": 0.0
+      },
+      "mean_packet_size_proxy": {
+        "mae": 76.53487444936097,
+        "r2": 0.0
+      },
+      "std_packet_size_proxy": {
+        "mae": 16.225176418907846,
+        "r2": 0.8875767964555608
+      },
+      "mean_interarrival_time": {
+        "mae": 0.875972231538736,
+        "r2": 0.25873860588109443
+      },
+      "std_interarrival_time": {
+        "mae": 0.19078187026860688,
+        "r2": 0.964597973343731
+      },
+      "active_nodes": {
+        "mae": 31.51777875994908,
+        "r2": 0.4703876539950612
+      },
+      "average_degree": {
+        "mae": 0.13447080609043602,
+        "r2": 0.5568404109659671
+      },
+      "average_peer_count": {
+        "mae": 0.08874564339659095,
+        "r2": 0.483632479187282
+      }
+    },
+    "validation": {
+      "total_packets": {
+        "mae": 104.27044354792541,
+        "r2": 0.5564247727121627
+      },
+      "total_bytes_proxy": {
+        "mae": 92065.31788658921,
+        "r2": -0.11972889565010303
+      },
+      "mean_packet_size_proxy": {
+        "mae": 134.00418630161985,
+        "r2": -0.13744101080266513
+      },
+      "std_packet_size_proxy": {
+        "mae": 18.855210003340872,
+        "r2": 0.972668600706722
+      },
+      "mean_interarrival_time": {
+        "mae": 1.0503460582856097,
+        "r2": -9.153185425503683
+      },
+      "std_interarrival_time": {
+        "mae": 0.08565542821854107,
+        "r2": 0.9350537116669496
+      },
+      "active_nodes": {
+        "mae": 31.871655683806928,
+        "r2": -1280.1308051611597
+      },
+      "average_degree": {
+        "mae": 0.17495859331727406,
+        "r2": 0.42540166866476914
+      },
+      "average_peer_count": {
+        "mae": 0.11533237389437434,
+        "r2": -0.2824355421576714
+      }
+    }
+  },
+  "config": {
+    "processed_dir": "data/processed",
+    "phase1_artifacts_dir": "artifacts",
+    "interim_dir": "data/interim",
+    "phase2_artifacts_dir": "artifacts/phase2",
+    "phase2_reports_dir": "reports/phase2",
+    "causal_dataset_csv": "data/interim/causal_dataset.csv",
+    "random_seed": 42,
+    "window_seconds": 60,
+    "graph_splits": {
+      "train": "train",
+      "validation": "validation",
+      "test": "test"
+    },
+    "dataset": {
+      "minimum_rows_per_split": {
+        "train": 20,
+        "validation": 1
+      },
+      "correlation_redundancy_threshold": 0.995
+    },
+    "reports": {
+      "generate_plots": true
+    },
+    "discovery": {
+      "method": "notears",
+      "edge_weight_threshold": 0.08,
+      "notears": {
+        "lambda1": 0.01,
+        "loss_type": "l2",
+        "max_iter": 80,
+        "h_tol": 1e-08,
+        "rho_max": 1e+16,
+        "w_threshold": 0.0
+      }
+    },
+    "constraints": {
+      "forbidden_edges": [],
+      "required_edges": []
+    },
+    "stability": {
+      "enabled": true,
+      "n_bootstraps": 12,
+      "subsample_fraction": 0.8,
+      "random_seeds": [
+        11,
+        23,
+        37,
+        41,
+        53,
+        67,
+        79,
+        83,
+        97,
+        101,
+        113,
+        127
+      ],
+      "edge_weight_threshold": 0.08,
+      "minimum_stability": 0.5
+    },
+    "scm": {
+      "model_type": "linear_regression"
+    }
+  },
+  "causal_dataset": "C:\\Users\\surya\\Desktop\\Project Dump\\Causal-Discovery-Edge-IIoT-Optimization\\data\\interim\\causal_dataset.csv",
+  "test_set_usage": "untouched"
+}

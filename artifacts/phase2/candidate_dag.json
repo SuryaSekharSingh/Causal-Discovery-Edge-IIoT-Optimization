@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "type": "candidate causal DAG",
+    "discovery_method": "notears",
+    "features": [
+      "total_packets",
+      "total_bytes_proxy",
+      "mean_packet_size_proxy",
+      "std_packet_size_proxy",
+      "mean_interarrival_time",
+      "std_interarrival_time",
+      "active_nodes",
+      "average_degree",
+      "average_peer_count"
+    ]
+  },
+  "dag": {
+    "total_packets": [
+      {
+        "target": "mean_interarrival_time",
+        "weight": -0.42590438161573746
+      },
+      {
+        "target": "average_degree",
+        "weight": 0.30522833618172673
+      },
+      {
+        "target": "average_peer_count",
+        "weight": 0.8407798223573621
+      }
+    ],
+    "total_bytes_proxy": [
+      {
+        "target": "total_packets",
+        "weight": 1.0712376024335042
+      },
+      {
+        "target": "mean_interarrival_time",
+        "weight": -0.44065575943177476
+      },
+      {
+        "target": "active_nodes",
+        "weight": 0.4840829122999404
+      },
+      {
+        "target": "average_degree",
+        "weight": -0.16719300823874994
+      },
+      {
+        "target": "average_peer_count",
+        "weight": -0.21813457050335064
+      }
+    ],
+    "mean_packet_size_proxy": [
+      {
+        "target": "total_packets",
+        "weight": -0.32242877255468216
+      },
+      {
+        "target": "total_bytes_proxy",
+        "weight": 0.8639708769141023
+      },
+      {
+        "target": "std_packet_size_proxy",
+        "weight": 0.899734629887892
+      },
+      {
+        "target": "mean_interarrival_time",
+        "weight": 1.0720285389747766
+      },
+      {
+        "target": "active_nodes",
+        "weight": -0.10729366748204308
+      }
+    ],
+    "std_packet_size_proxy": [
+      {
+        "target": "mean_interarrival_time",
+        "weight": -0.4229686834979304
+      },
+      {
+        "target": "active_nodes",
+        "weight": -0.2848666514260185
+      }
+    ],
+    "mean_interarrival_time": [
+      {
+        "target": "std_interarrival_time",
+        "weight": 0.9679841190909023
+      }
+    ],
+    "std_interarrival_time": [],
+    "active_nodes": [
+      {
+        "target": "mean_interarrival_time",
+        "weight": 0.1574984596092316
+      },
+      {
+        "target": "average_degree",
+        "weight": -0.6204563315857904
+      }
+    ],
+    "average_degree": [
+      {
+        "target": "mean_interarrival_time",
+        "weight": -0.1107288609626621
+      }
+    ],
+    "average_peer_count": [
+      {
+        "target": "active_nodes",
+        "weight": 0.4930791616541043
+      },
+      {
+        "target": "average_degree",
+        "weight": 0.7503706351750096
+      }
+    ]
+  }
+}
