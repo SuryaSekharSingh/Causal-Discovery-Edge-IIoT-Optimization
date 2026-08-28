@@ -228,7 +228,12 @@ def apportion(counts: Counter, desired: int) -> dict[str, int]:
 
 
 def sample_cleaned(cleaned_csv: Path, audit: dict, config: dict) -> pd.DataFrame:
-    """Deterministic stratified reservoir sample across time, label, and derived protocol."""
+    """Deterministic stratified sample across time, label, and derived protocol.
+
+    The first pass counts strata. The second pass keeps only the best random
+    priorities per stratum at chunk level. This avoids iterrows()/to_dict()
+    over the full cleaned CSV, which was the main runtime bottleneck.
+    """
     started = time.perf_counter()
     LOG.info("Starting deterministic sampling from cleaned traffic: %s", cleaned_csv)
     start, end = pd.Timestamp(audit["timestamp_range"]["min"]), pd.Timestamp(audit["timestamp_range"]["max"])
@@ -242,27 +247,34 @@ def sample_cleaned(cleaned_csv: Path, audit: dict, config: dict) -> pd.DataFrame
         LOG.info("Using all %s cleaned rows.", sum(counts.values()))
         return pd.concat(read_cleaned_chunks(cleaned_csv, config["chunk_size"]), ignore_index=True)
     quotas = apportion(counts, int(requested))
-    reservoirs: dict[str, list[tuple[int, dict]]] = defaultdict(list)
+    # Each bucket contains only a small candidate DataFrame. Keeping complete
+    # row dictionaries for every reservoir entry is substantially slower and
+    # uses more Python-object memory than vectorized pandas operations.
+    candidates: dict[str, list[pd.DataFrame]] = defaultdict(list)
     rng = np.random.default_rng(config["random_seed"])
     rows_seen = 0
     for chunk_number, chunk in enumerate(read_cleaned_chunks(cleaned_csv, config["chunk_size"]), start=1):
-        strata = assign_strata(chunk, start, end, config["sampling_time_bins"])
-        for (_, row), stratum in zip(chunk.iterrows(), strata):
-            rows_seen += 1
-            quota = quotas[stratum]
-            priority = int(rng.integers(0, np.iinfo(np.int64).max))
-            bucket = reservoirs[stratum]
-            if len(bucket) < quota:
-                bucket.append((priority, row.to_dict()))
-            else:
-                largest = max(range(len(bucket)), key=lambda index: bucket[index][0])
-                if priority < bucket[largest][0]:
-                    bucket[largest] = (priority, row.to_dict())
+        rows_seen += len(chunk)
+        work = chunk.copy()
+        work["_stratum"] = assign_strata(work, start, end, config["sampling_time_bins"]).to_numpy()
+        work["_priority"] = rng.random(len(work))
+        for stratum, indices in work.groupby("_stratum", sort=False).groups.items():
+            quota = quotas.get(stratum, 0)
+            if quota <= 0:
+                continue
+            bucket = work.loc[indices]
+            # Keep only the chunk's best candidates; later chunks are merged
+            # and reduced to the exact global quota.
+            candidates[stratum].append(bucket.nsmallest(min(quota, len(bucket)), "_priority"))
         if chunk_number % PROGRESS_EVERY_CHUNKS == 0:
-            selected_so_far = sum(len(bucket) for bucket in reservoirs.values())
+            selected_so_far = sum(sum(len(part) for part in parts) for parts in candidates.values())
             LOG.info("Sampling reservoir progress: %s chunks, %s rows seen, %s rows selected.", chunk_number, rows_seen, selected_so_far)
-    rows = [row for bucket in reservoirs.values() for _, row in bucket]
-    sample = pd.DataFrame(rows).sort_values("frame.time", kind="mergesort").reset_index(drop=True)
+    buckets = []
+    for stratum, parts in candidates.items():
+        bucket = pd.concat(parts, ignore_index=True)
+        buckets.append(bucket.nsmallest(quotas[stratum], "_priority"))
+    sample = pd.concat(buckets, ignore_index=True).drop(columns=["_stratum", "_priority"])
+    sample = sample.sort_values("frame.time", kind="mergesort").reset_index(drop=True)
     LOG.info(
         "Selected deterministic sample of %s rows from %s cleaned rows in %.1fs.",
         len(sample), sum(counts.values()), time.perf_counter() - started,
@@ -301,6 +313,13 @@ def prepare_record_features(frame: pd.DataFrame, config: dict):
     frame["_protocol"] = infer_protocol(frame)
     eligible_categorical = [column for column in categorical if frame.loc[frame["_split"].eq("train"), column].nunique() <= config["max_categories"]]
     omitted = sorted(set(categorical) - set(eligible_categorical))
+
+    # Edge-IIoTset nominal fields can contain values such as 0 alongside
+    # textual values. Normalize only model categorical inputs so OneHotEncoder
+    # receives one consistent type; endpoint IDs and labels remain separate.
+    for column in eligible_categorical:
+        frame[column] = frame[column].astype("string").fillna("<missing>")
+
     transformer = ColumnTransformer([
         ("numeric", StandardScaler(), numeric),
         ("categorical", OneHotEncoder(handle_unknown="ignore", sparse_output=False), eligible_categorical),
@@ -330,19 +349,47 @@ def build_raw_graphs(frame: pd.DataFrame, record_features: np.ndarray, endpoint_
         group["_iat"] = group.groupby(["ip.src_host", "ip.dst_host"])["frame.time"].diff().dt.total_seconds().fillna(0)
         graph = nx.DiGraph(window=int(window), split=str(split), start_time=start + pd.Timedelta(seconds=int(window) * window_seconds))
         involved = sorted(set(group["ip.src_host"].astype(str)) | set(group["ip.dst_host"].astype(str)), key=endpoint_map.__getitem__)
+
+        # Compute node aggregates once per window. The previous implementation
+        # filtered the complete window separately for every endpoint.
+        inbound = group.groupby("ip.dst_host", sort=False).agg(
+            inbound_packets=("_packet_size", "size"),
+            inbound_bytes=("_packet_size", "sum"),
+        )
+        outbound = group.groupby("ip.src_host", sort=False).agg(
+            outbound_packets=("_packet_size", "size"),
+            outbound_bytes=("_packet_size", "sum"),
+        )
+        related_rows = pd.concat([
+            group[["ip.src_host", "_packet_size", "_iat"]].rename(columns={"ip.src_host": "endpoint"}),
+            group[["ip.dst_host", "_packet_size", "_iat"]].rename(columns={"ip.dst_host": "endpoint"}),
+        ], ignore_index=True)
+        related = related_rows.groupby("endpoint", sort=False).agg(
+            mean_packet_size=("_packet_size", "mean"),
+            mean_interarrival=("_iat", "mean"),
+        )
+        peer_rows = pd.concat([
+            group[["ip.src_host", "ip.dst_host"]].rename(columns={"ip.src_host": "endpoint", "ip.dst_host": "peer"}),
+            group[["ip.dst_host", "ip.src_host"]].rename(columns={"ip.dst_host": "endpoint", "ip.src_host": "peer"}),
+        ], ignore_index=True)
+        peer_counts = peer_rows.groupby("endpoint", sort=False)["peer"].nunique()
         for endpoint in involved:
-            inbound = group.loc[group["ip.dst_host"].eq(endpoint)]
-            outbound = group.loc[group["ip.src_host"].eq(endpoint)]
-            related = group.loc[group["ip.src_host"].eq(endpoint) | group["ip.dst_host"].eq(endpoint)]
-            peers = set(outbound["ip.dst_host"].astype(str)) | set(inbound["ip.src_host"].astype(str))
-            node_raw = np.array([len(inbound), inbound["_packet_size"].sum(), len(outbound), outbound["_packet_size"].sum(),
-                                 related["_packet_size"].mean() if len(related) else 0.0,
-                                 related["_iat"].mean() if len(related) else 0.0, len(peers)], dtype=np.float32)
+            in_stats = inbound.loc[endpoint] if endpoint in inbound.index else None
+            out_stats = outbound.loc[endpoint] if endpoint in outbound.index else None
+            related_stats = related.loc[endpoint]
+            node_raw = np.array([
+                0 if in_stats is None else in_stats["inbound_packets"],
+                0.0 if in_stats is None else in_stats["inbound_bytes"],
+                0 if out_stats is None else out_stats["outbound_packets"],
+                0.0 if out_stats is None else out_stats["outbound_bytes"],
+                related_stats["mean_packet_size"], related_stats["mean_interarrival"],
+                peer_counts.get(endpoint, 0),
+            ], dtype=np.float32)
             graph.add_node(endpoint_map[endpoint], raw=node_raw)
         for (source, destination), edge in group.groupby(["ip.src_host", "ip.dst_host"], sort=True):
             rows = edge["_row"].to_numpy(dtype=int)
             transformed_mean = record_features[rows].mean(axis=0)
-            protocol_counts = infer_protocol(edge).value_counts().to_dict()
+            protocol_counts = edge["_protocol"].value_counts().to_dict()
             raw = np.concatenate(([len(edge), edge["_packet_size"].sum(), edge["_packet_size"].mean(), edge["_packet_size"].std(ddof=0),
                                    edge["_iat"].mean(), edge["_iat"].std(ddof=0)], transformed_mean)).astype(np.float32)
             graph.add_edge(endpoint_map[str(source)], endpoint_map[str(destination)], raw=raw, protocol_counts=protocol_counts)

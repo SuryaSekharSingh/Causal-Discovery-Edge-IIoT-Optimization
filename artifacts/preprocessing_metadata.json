@@ -1,0 +1,10 @@
+{
+  "random_seed": 42,
+  "window_seconds": 60,
+  "split_boundaries": {
+    "train_end": "2021-01-01T19:44:17.616896",
+    "validation_end": "2021-01-01T21:36:24.606031"
+  },
+  "sample_size": 200000,
+  "node_mapping_scope": "sampled endpoints, lexicographically sorted"
+}
