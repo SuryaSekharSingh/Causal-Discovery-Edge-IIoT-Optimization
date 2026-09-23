@@ -1,0 +1,48 @@
+{
+  "fitted_on_split": "train",
+  "causal_features": [
+    "total_packets",
+    "total_bytes_proxy",
+    "mean_packet_size_proxy",
+    "std_packet_size_proxy",
+    "mean_interarrival_time",
+    "std_interarrival_time",
+    "active_nodes",
+    "average_degree",
+    "average_peer_count"
+  ],
+  "causal_mean": [
+    221.4022216796875,
+    30131.5390625,
+    53.418792724609375,
+    52.2646369934082,
+    1.5959742069244385,
+    1.697068452835083,
+    12.505535125732422,
+    2.1402995586395264,
+    1.1382050514221191
+  ],
+  "causal_scale": [
+    239.5300750732422,
+    101462.5546875,
+    126.35565948486328,
+    107.69361877441406,
+    2.1384098529815674,
+    2.137167453765869,
+    70.14147186279297,
+    0.28080081939697266,
+    0.18351763486862183
+  ],
+  "graph_size_features": [
+    "log1p_node_count",
+    "log1p_edge_count"
+  ],
+  "graph_size_mean": [
+    1.506900429725647,
+    1.5559844970703125
+  ],
+  "graph_size_scale": [
+    0.69590824842453,
+    0.7124714851379395
+  ]
+}

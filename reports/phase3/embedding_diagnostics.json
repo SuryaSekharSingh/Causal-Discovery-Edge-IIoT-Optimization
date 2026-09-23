@@ -1,0 +1,44 @@
+{
+  "train": {
+    "shape": [
+      542,
+      64
+    ],
+    "finite": true,
+    "minimum_dimension_std": 0.1988089802891947,
+    "maximum_dimension_std": 1.7209310503662607,
+    "collapsed_dimensions": 0,
+    "all_dimensions_collapsed": false,
+    "effective_rank": 4.143783242880032,
+    "mean_l2_norm": 8.665628442985868,
+    "std_l2_norm": 0.04778633479357157
+  },
+  "validation": {
+    "shape": [
+      113,
+      64
+    ],
+    "finite": true,
+    "minimum_dimension_std": 0.1670240791652499,
+    "maximum_dimension_std": 1.5430082541593209,
+    "collapsed_dimensions": 0,
+    "all_dimensions_collapsed": false,
+    "effective_rank": 2.7635108612551718,
+    "mean_l2_norm": 8.706973598596514,
+    "std_l2_norm": 0.0523738553892575
+  },
+  "test": {
+    "shape": [
+      146,
+      64
+    ],
+    "finite": true,
+    "minimum_dimension_std": 0.25732302335549334,
+    "maximum_dimension_std": 2.3811632746288875,
+    "collapsed_dimensions": 0,
+    "all_dimensions_collapsed": false,
+    "effective_rank": 3.7944648988501384,
+    "mean_l2_norm": 8.674613370824153,
+    "std_l2_norm": 0.0618891464889064
+  }
+}

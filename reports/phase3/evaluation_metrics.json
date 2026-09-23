@@ -1,0 +1,383 @@
+{
+  "train": {
+    "current": {
+      "sample_count": 542,
+      "macro_standardized_mse": 0.04112480953335762,
+      "per_feature": {
+        "total_packets": {
+          "mae": 19.708032608032227,
+          "rmse": 43.3687629699707,
+          "r2": 0.9672181010246277,
+          "standardized_mse": 0.03278188407421112
+        },
+        "total_bytes_proxy": {
+          "mae": 8501.232421875,
+          "rmse": 27056.61328125,
+          "r2": 0.928889274597168,
+          "standardized_mse": 0.07111074030399323
+        },
+        "mean_packet_size_proxy": {
+          "mae": 8.476207733154297,
+          "rmse": 17.749839782714844,
+          "r2": 0.9802666902542114,
+          "standardized_mse": 0.019733289256691933
+        },
+        "std_packet_size_proxy": {
+          "mae": 10.472350120544434,
+          "rmse": 21.28691291809082,
+          "r2": 0.960929811000824,
+          "standardized_mse": 0.03907018154859543
+        },
+        "mean_interarrival_time": {
+          "mae": 0.1560831516981125,
+          "rmse": 0.27147233486175537,
+          "r2": 0.9838835597038269,
+          "standardized_mse": 0.016116445884108543
+        },
+        "std_interarrival_time": {
+          "mae": 0.23522710800170898,
+          "rmse": 0.4550856053829193,
+          "r2": 0.9546571373939514,
+          "standardized_mse": 0.04534288868308067
+        },
+        "active_nodes": {
+          "mae": 3.8603150844573975,
+          "rmse": 8.376315116882324,
+          "r2": 0.9857388138771057,
+          "standardized_mse": 0.014261203818023205
+        },
+        "average_degree": {
+          "mae": 0.05373549461364746,
+          "rmse": 0.09435389190912247,
+          "r2": 0.8870924711227417,
+          "standardized_mse": 0.1129075214266777
+        },
+        "average_peer_count": {
+          "mae": 0.013559749349951744,
+          "rmse": 0.025162100791931152,
+          "r2": 0.9812008738517761,
+          "standardized_mse": 0.01879914663732052
+        }
+      }
+    },
+    "next": {
+      "sample_count": 537,
+      "macro_standardized_mse": 0.15729932487010956,
+      "per_feature": {
+        "total_packets": {
+          "mae": 31.0208797454834,
+          "rmse": 70.8389892578125,
+          "r2": 0.9119710326194763,
+          "standardized_mse": 0.08746303617954254
+        },
+        "total_bytes_proxy": {
+          "mae": 9804.0185546875,
+          "rmse": 30629.9609375,
+          "r2": 0.9096500873565674,
+          "standardized_mse": 0.09113416075706482
+        },
+        "mean_packet_size_proxy": {
+          "mae": 13.981842041015625,
+          "rmse": 31.48909568786621,
+          "r2": 0.9383111596107483,
+          "standardized_mse": 0.062105629593133926
+        },
+        "std_packet_size_proxy": {
+          "mae": 16.025251388549805,
+          "rmse": 35.71604919433594,
+          "r2": 0.8900141716003418,
+          "standardized_mse": 0.10998840630054474
+        },
+        "mean_interarrival_time": {
+          "mae": 0.3486380875110626,
+          "rmse": 0.9502105116844177,
+          "r2": 0.7983757853507996,
+          "standardized_mse": 0.19745028018951416
+        },
+        "std_interarrival_time": {
+          "mae": 0.38815420866012573,
+          "rmse": 1.0040048360824585,
+          "r2": 0.7710257768630981,
+          "standardized_mse": 0.22069600224494934
+        },
+        "active_nodes": {
+          "mae": 6.256866931915283,
+          "rmse": 24.95443344116211,
+          "r2": 0.8745681047439575,
+          "standardized_mse": 0.1265743225812912
+        },
+        "average_degree": {
+          "mae": 0.10842665284872055,
+          "rmse": 0.16010873019695282,
+          "r2": 0.6671030521392822,
+          "standardized_mse": 0.3251121938228607
+        },
+        "average_peer_count": {
+          "mae": 0.043836768716573715,
+          "rmse": 0.08107448369264603,
+          "r2": 0.8056040406227112,
+          "standardized_mse": 0.19516988098621368
+        }
+      }
+    },
+    "baselines": {
+      "current_train_mean_standardized_mse": 1.0,
+      "next_train_mean_standardized_mse": 0.9935779571533203,
+      "next_persistence_standardized_mse": 0.32005932927131653
+    }
+  },
+  "validation": {
+    "current": {
+      "sample_count": 113,
+      "macro_standardized_mse": 0.06251702457666397,
+      "per_feature": {
+        "total_packets": {
+          "mae": 34.37165832519531,
+          "rmse": 58.38612365722656,
+          "r2": 0.9054041504859924,
+          "standardized_mse": 0.05941542610526085
+        },
+        "total_bytes_proxy": {
+          "mae": 16135.951171875,
+          "rmse": 36171.14453125,
+          "r2": 0.9447474479675293,
+          "standardized_mse": 0.1270904690027237
+        },
+        "mean_packet_size_proxy": {
+          "mae": 16.969398498535156,
+          "rmse": 30.28961944580078,
+          "r2": 0.9815784692764282,
+          "standardized_mse": 0.05746431276202202
+        },
+        "std_packet_size_proxy": {
+          "mae": 17.436811447143555,
+          "rmse": 27.80824851989746,
+          "r2": 0.9780517816543579,
+          "standardized_mse": 0.06667567044496536
+        },
+        "mean_interarrival_time": {
+          "mae": 0.14570823311805725,
+          "rmse": 0.18933692574501038,
+          "r2": 0.769295334815979,
+          "standardized_mse": 0.0078395064920187
+        },
+        "std_interarrival_time": {
+          "mae": 0.19056068360805511,
+          "rmse": 0.24058258533477783,
+          "r2": 0.6165041923522949,
+          "standardized_mse": 0.012672177515923977
+        },
+        "active_nodes": {
+          "mae": 3.8569705486297607,
+          "rmse": 5.2622456550598145,
+          "r2": -26.049365997314453,
+          "standardized_mse": 0.005628497805446386
+        },
+        "average_degree": {
+          "mae": 0.06921719014644623,
+          "rmse": 0.09771943092346191,
+          "r2": 0.8696549534797668,
+          "standardized_mse": 0.12110582739114761
+        },
+        "average_peer_count": {
+          "mae": 0.038438260555267334,
+          "rmse": 0.05939887836575508,
+          "r2": 0.775375485420227,
+          "standardized_mse": 0.10476130247116089
+        }
+      }
+    },
+    "next": {
+      "sample_count": 112,
+      "macro_standardized_mse": 0.1989891678094864,
+      "per_feature": {
+        "total_packets": {
+          "mae": 55.81287384033203,
+          "rmse": 121.11443328857422,
+          "r2": 0.5905641913414001,
+          "standardized_mse": 0.25566527247428894
+        },
+        "total_bytes_proxy": {
+          "mae": 21587.14453125,
+          "rmse": 50225.87890625,
+          "r2": 0.892111599445343,
+          "standardized_mse": 0.24504368007183075
+        },
+        "mean_packet_size_proxy": {
+          "mae": 25.060014724731445,
+          "rmse": 55.650306701660156,
+          "r2": 0.9365313649177551,
+          "standardized_mse": 0.19397498667240143
+        },
+        "std_packet_size_proxy": {
+          "mae": 26.379886627197266,
+          "rmse": 47.48495101928711,
+          "r2": 0.9349086880683899,
+          "standardized_mse": 0.19441601634025574
+        },
+        "mean_interarrival_time": {
+          "mae": 0.20729337632656097,
+          "rmse": 0.27583539485931396,
+          "r2": 0.5112993717193604,
+          "standardized_mse": 0.016638649627566338
+        },
+        "std_interarrival_time": {
+          "mae": 0.1977958381175995,
+          "rmse": 0.26760903000831604,
+          "r2": 0.526269793510437,
+          "standardized_mse": 0.015679221600294113
+        },
+        "active_nodes": {
+          "mae": 5.656271457672119,
+          "rmse": 7.347842693328857,
+          "r2": -51.27389144897461,
+          "standardized_mse": 0.010974125005304813
+        },
+        "average_degree": {
+          "mae": 0.14525069296360016,
+          "rmse": 0.20907710492610931,
+          "r2": 0.40638840198516846,
+          "standardized_mse": 0.5543912053108215
+        },
+        "average_peer_count": {
+          "mae": 0.07536067813634872,
+          "rmse": 0.101204514503479,
+          "r2": 0.3535192012786865,
+          "standardized_mse": 0.30411940813064575
+        }
+      }
+    },
+    "baselines": {
+      "current_train_mean_standardized_mse": 1.4514323472976685,
+      "next_train_mean_standardized_mse": 1.4234071969985962,
+      "next_persistence_standardized_mse": 0.2172851264476776
+    }
+  },
+  "test": {
+    "current": {
+      "sample_count": 146,
+      "macro_standardized_mse": 1.6318715810775757,
+      "per_feature": {
+        "total_packets": {
+          "mae": 88.2723159790039,
+          "rmse": 205.07020568847656,
+          "r2": 0.7108886241912842,
+          "standardized_mse": 0.7329679131507874
+        },
+        "total_bytes_proxy": {
+          "mae": 21736.462890625,
+          "rmse": 40079.625,
+          "r2": -9.629569053649902,
+          "standardized_mse": 0.15603992342948914
+        },
+        "mean_packet_size_proxy": {
+          "mae": 17.810274124145508,
+          "rmse": 28.19443702697754,
+          "r2": 0.863498866558075,
+          "standardized_mse": 0.04978946968913078
+        },
+        "std_packet_size_proxy": {
+          "mae": 31.31226348876953,
+          "rmse": 56.87193298339844,
+          "r2": 0.3051266670227051,
+          "standardized_mse": 0.27887916564941406
+        },
+        "mean_interarrival_time": {
+          "mae": 0.3414860665798187,
+          "rmse": 0.5282500386238098,
+          "r2": 0.9774429798126221,
+          "standardized_mse": 0.06102351099252701
+        },
+        "std_interarrival_time": {
+          "mae": 0.5301287770271301,
+          "rmse": 0.9126423597335815,
+          "r2": 0.9289116263389587,
+          "standardized_mse": 0.18235772848129272
+        },
+        "active_nodes": {
+          "mae": 58.51516342163086,
+          "rmse": 247.23060607910156,
+          "r2": 0.5046918392181396,
+          "standardized_mse": 12.423808097839355
+        },
+        "average_degree": {
+          "mae": 0.12627722322940826,
+          "rmse": 0.2023431807756424,
+          "r2": 0.5753496885299683,
+          "standardized_mse": 0.5192546248435974
+        },
+        "average_peer_count": {
+          "mae": 0.06362279504537582,
+          "rmse": 0.09757965058088303,
+          "r2": 0.8483758568763733,
+          "standardized_mse": 0.28272420167922974
+        }
+      }
+    },
+    "next": {
+      "sample_count": 143,
+      "macro_standardized_mse": 2.05185604095459,
+      "per_feature": {
+        "total_packets": {
+          "mae": 118.67963409423828,
+          "rmse": 258.2693176269531,
+          "r2": 0.5458195209503174,
+          "standardized_mse": 1.1625871658325195
+        },
+        "total_bytes_proxy": {
+          "mae": 27150.822265625,
+          "rmse": 59838.45703125,
+          "r2": -22.526639938354492,
+          "standardized_mse": 0.34781575202941895
+        },
+        "mean_packet_size_proxy": {
+          "mae": 34.629241943359375,
+          "rmse": 59.226409912109375,
+          "r2": 0.4059406518936157,
+          "standardized_mse": 0.219705730676651
+        },
+        "std_packet_size_proxy": {
+          "mae": 38.22156524658203,
+          "rmse": 62.451934814453125,
+          "r2": 0.1715071201324463,
+          "standardized_mse": 0.3362884521484375
+        },
+        "mean_interarrival_time": {
+          "mae": 0.919402003288269,
+          "rmse": 1.7814396619796753,
+          "r2": 0.7462683916091919,
+          "standardized_mse": 0.6940013766288757
+        },
+        "std_interarrival_time": {
+          "mae": 1.0048164129257202,
+          "rmse": 1.9019203186035156,
+          "r2": 0.6948176026344299,
+          "standardized_mse": 0.7919679880142212
+        },
+        "active_nodes": {
+          "mae": 64.76568603515625,
+          "rmse": 254.04074096679688,
+          "r2": 0.4872177839279175,
+          "standardized_mse": 13.117679595947266
+        },
+        "average_degree": {
+          "mae": 0.19258317351341248,
+          "rmse": 0.2554354667663574,
+          "r2": 0.1865072250366211,
+          "standardized_mse": 0.8274955749511719
+        },
+        "average_peer_count": {
+          "mae": 0.1145133450627327,
+          "rmse": 0.18066586554050446,
+          "r2": 0.48661619424819946,
+          "standardized_mse": 0.9691625237464905
+        }
+      }
+    },
+    "baselines": {
+      "current_train_mean_standardized_mse": 4.258850574493408,
+      "next_train_mean_standardized_mse": 4.314050197601318,
+      "next_persistence_standardized_mse": 1.4004663228988647
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "config": {
+    "processed_dir": "data/processed",
+    "causal_dataset_csv": "data/interim/causal_dataset.csv",
+    "phase2_artifacts_dir": "artifacts/phase2",
+    "phase2_reports_dir": "reports/phase2",
+    "phase3_artifacts_dir": "artifacts/phase3",
+    "phase3_reports_dir": "reports/phase3",
+    "random_seed": 42,
+    "window_seconds": 60,
+    "graph_splits": {
+      "train": "train",
+      "validation": "validation",
+      "test": "test"
+    },
+    "expected_schema": {
+      "node_features": 7,
+      "edge_features": 66
+    },
+    "model": {
+      "hidden_dim": 64,
+      "embedding_dim": 64,
+      "num_layers": 2,
+      "attention_heads": 4,
+      "dropout": 0.2
+    },
+    "training": {
+      "device": "cpu",
+      "batch_size": 32,
+      "epochs": 200,
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "gradient_clip": 1.0,
+      "early_stopping_patience": 25,
+      "minimum_improvement": 1e-06,
+      "current_loss_weight": 1.0,
+      "next_loss_weight": 0.5,
+      "num_workers": 0
+    },
+    "reports": {
+      "generate_plots": true
+    },
+    "overwrite_outputs": false
+  },
+  "package_versions": {
+    "torch": "2.10.0",
+    "torch-geometric": "2.8.0.post1",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "matplotlib": "3.10.9"
+  },
+  "inputs": {
+    "causal_dataset_sha256": "a7e536d02f3e1f2607d876298e289a43d14efc6e48a9ae5aade0a0af2c575e8f",
+    "refined_dag_sha256": "911c52414d322feb831d2005598a79dfd9e094c95a92566572b21010080d7bb1",
+    "variable_decisions_sha256": "aae76fcc4be867ff09021188936a4b283bc41ea39e739aa7df09ef2fbe75a008",
+    "graph_inventory_sha256": "f3fee309ba1328152f41a2b35b2b8571b083f04d817736028b5ddefc617fcfd7"
+  },
+  "outputs": {
+    "encoder_sha256": "9ce8d714e5b7642d6fc3dc93d779f2f3fd1ac679aed9853fc24d5c288c5ebe81"
+  }
+}

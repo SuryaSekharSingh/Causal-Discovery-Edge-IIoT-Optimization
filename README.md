@@ -14,6 +14,16 @@ python -m src.phase2_pipeline --config config/phase2_config.json
 
 Main outputs are written to `data/interim/causal_dataset.csv`, `artifacts/phase2/`, and `reports/phase2/`. The test split is loaded only into the causal dataset for future phases; it is not used for DAG discovery, refinement, stability filtering, or SCM fitting.
 
+## Phase 3: edge-aware GNN embeddings
+
+Phase 3 runs independently from the earlier pipelines. It joins the existing PyG snapshots with the Phase 2 causal table, trains a bidirectional edge-aware GATv2 encoder using current- and next-window causal targets, and exports one 64-dimensional embedding per graph.
+
+```powershell
+python -m src.phase3_pipeline --config config/phase3_config.json
+```
+
+Use `--validate-only` to check all graph/causal joins and tensor schemas without training or writing outputs. Model checkpoints and embeddings are written to `artifacts/phase3/`; metrics and training reports are written to `reports/phase3/`. The exported `encoder.pt` is frozen by default for use as the Phase 4 state encoder.
+
 ## Quick start
 
 ### Method 1: Standard project environment (original method)
@@ -38,6 +48,7 @@ On some Windows machines, the project-local `.venv` can run into Windows Applica
 & "$env:LOCALAPPDATA\venvs\edge-iiot\Scripts\python.exe" -m pip install -r requirements.txt
 & "$env:LOCALAPPDATA\venvs\edge-iiot\Scripts\python.exe" -m src.main --config config/phase1_config.json
 & "$env:LOCALAPPDATA\venvs\edge-iiot\Scripts\python.exe" -m src.phase2_pipeline --config config/phase2_config.json
+& "$env:LOCALAPPDATA\Python\pythoncore-3.10-64\python.exe" -m src.phase3_pipeline --config config/phase3_config.json
 ```
 
 If you are already inside the project folder and want to activate that environment manually:

@@ -1,0 +1,46 @@
+{
+  "phase": 3,
+  "purpose": "standalone causally supervised graph representation learning",
+  "model": {
+    "architecture": "bidirectional_edge_aware_gatv2",
+    "node_dim": 7,
+    "edge_dim": 66,
+    "hidden_dim": 64,
+    "embedding_dim": 64,
+    "num_layers": 2,
+    "attention_heads": 4,
+    "dropout": 0.2
+  },
+  "causal_features": [
+    "total_packets",
+    "total_bytes_proxy",
+    "mean_packet_size_proxy",
+    "std_packet_size_proxy",
+    "mean_interarrival_time",
+    "std_interarrival_time",
+    "active_nodes",
+    "average_degree",
+    "average_peer_count"
+  ],
+  "split_counts": {
+    "train": 542,
+    "validation": 113,
+    "test": 146
+  },
+  "temporal_pair_counts": {
+    "train": 537,
+    "validation": 112,
+    "test": 143
+  },
+  "best_epoch": 64,
+  "best_validation_loss": 0.16201160330085176,
+  "encoder_sha256": "9ce8d714e5b7642d6fc3dc93d779f2f3fd1ac679aed9853fc24d5c288c5ebe81",
+  "frozen_for_phase4_by_default": true,
+  "test_set_usage": "evaluated only after validation checkpoint selection",
+  "unsupported_claims": [
+    "latency prediction",
+    "energy prediction",
+    "action effects",
+    "counterfactual safety"
+  ]
+}
