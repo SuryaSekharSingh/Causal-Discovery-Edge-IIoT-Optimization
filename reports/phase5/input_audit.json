@@ -1,0 +1,21 @@
+{
+  "rows": 45648,
+  "rows_by_split": {
+    "train": 32688,
+    "validation": 6636,
+    "test": 6324
+  },
+  "decision_states": 7608,
+  "exact_scm_max_abs_error": 2.9103830456733704e-11,
+  "split_counts": {
+    "train": 542,
+    "validation": 113,
+    "test": 146
+  },
+  "all_checks_passed": true,
+  "singleton_snapshots": {
+    "train": 0,
+    "validation": 0,
+    "test": 2
+  }
+}

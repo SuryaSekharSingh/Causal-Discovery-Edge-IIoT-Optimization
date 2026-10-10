@@ -1,0 +1,17 @@
+{
+  "rows": 45648,
+  "decision_states": 7608,
+  "states_by_split": {
+    "train": 5448,
+    "validation": 1106,
+    "test": 1054
+  },
+  "rows_by_split": {
+    "test": 6324,
+    "train": 32688,
+    "validation": 6636
+  },
+  "actions_per_state": 6,
+  "complete_action_coverage": true,
+  "phase5_training_policy": "fit action-aware models on training rows only"
+}

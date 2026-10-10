@@ -1,0 +1,59 @@
+{
+  "causal_dataset_csv": "data/interim/causal_dataset.csv",
+  "phase3_artifacts_dir": "artifacts/phase3",
+  "phase4_artifacts_dir": "artifacts/phase4",
+  "phase4_reports_dir": "reports/phase4",
+  "transition_dataset_csv": "data/interim/phase4_action_outcomes.csv",
+  "random_seed": 42,
+  "window_seconds": 60,
+  "environment": {
+    "embedding_clip": 10.0,
+    "episode_horizon": 64,
+    "capacity_quantiles": [0.95, 0.90, 0.75],
+    "buffer_capacity_multiplier": 2.0,
+    "base_latency_ms": [5.0, 10.0, 20.0],
+    "idle_energy": [1.0, 0.65, 0.35],
+    "dynamic_energy": [2.5, 1.4, 0.7],
+    "latency_budget_ms": 15000.0,
+    "pdr_completion_threshold": 0.99,
+    "reward_weights": {
+      "throughput": 0.30,
+      "pdr": 0.25,
+      "completion": 0.15,
+      "latency": -0.15,
+      "energy": -0.10,
+      "drops": -0.05
+    },
+    "actions": [
+      {"name": "route_server_a", "fractions": [1.0, 0.0, 0.0]},
+      {"name": "route_server_b", "fractions": [0.0, 1.0, 0.0]},
+      {"name": "route_server_c", "fractions": [0.0, 0.0, 1.0]},
+      {"name": "balanced", "fractions": [0.3333333333, 0.3333333333, 0.3333333334]},
+      {"name": "performance_weighted", "fractions": [0.6, 0.3, 0.1]},
+      {"name": "energy_weighted", "fractions": [0.1, 0.25, 0.65]}
+    ]
+  },
+  "dqn": {
+    "device": "cpu",
+    "total_timesteps": 100000,
+    "learning_rate": 0.0001,
+    "buffer_size": 50000,
+    "learning_starts": 2000,
+    "batch_size": 128,
+    "gamma": 0.99,
+    "train_freq": 4,
+    "gradient_steps": 1,
+    "target_update_interval": 1000,
+    "exploration_fraction": 0.30,
+    "exploration_final_eps": 0.05,
+    "net_arch": [256, 128],
+    "evaluation_frequency": 5000,
+    "evaluation_start_count": 10
+  },
+  "transition_generation": {
+    "episodes": {"train": 100, "validation": 20, "test": 20},
+    "episode_horizon": 64
+  },
+  "reports": {"generate_plots": true},
+  "overwrite_outputs": false
+}

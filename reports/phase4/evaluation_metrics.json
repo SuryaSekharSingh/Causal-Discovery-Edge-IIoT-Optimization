@@ -1,0 +1,262 @@
+{
+  "validation": {
+    "dqn": {
+      "policy": "dqn",
+      "split": "validation",
+      "episodes": 10,
+      "total_steps": 449,
+      "mean_cumulative_reward": 19.907276035283488,
+      "std_cumulative_reward": 10.05784181708412,
+      "mean_step_reward": 0.4529893396992891,
+      "action_counts": [
+        322,
+        5,
+        49,
+        0,
+        39,
+        34
+      ],
+      "action_frequencies": [
+        0.7171492204899778,
+        0.011135857461024499,
+        0.1091314031180401,
+        0.0,
+        0.08685968819599109,
+        0.0757238307349666
+      ],
+      "mean_throughput_packets": 313.7861878134981,
+      "mean_pdr": 1.0,
+      "mean_dropped_packets": 0.0,
+      "mean_drop_ratio": 0.0,
+      "mean_latency_proxy_ms": 7.786191536748473,
+      "mean_energy_proxy": 1.565579056811284,
+      "mean_task_completion": 1.0
+    },
+    "random": {
+      "policy": "random",
+      "split": "validation",
+      "episodes": 10,
+      "total_steps": 449,
+      "mean_cumulative_reward": 18.115380828287744,
+      "std_cumulative_reward": 8.97453121115412,
+      "mean_step_reward": 0.4030705674304868,
+      "action_counts": [
+        80,
+        74,
+        78,
+        68,
+        85,
+        64
+      ],
+      "action_frequencies": [
+        0.17817371937639198,
+        0.16481069042316257,
+        0.17371937639198218,
+        0.1514476614699332,
+        0.18930957683741648,
+        0.14253897550111358
+      ],
+      "mean_throughput_packets": 309.2540420982111,
+      "mean_pdr": 0.968403977914763,
+      "mean_dropped_packets": 1.444469258035674,
+      "mean_drop_ratio": 0.0017566637036614224,
+      "mean_latency_proxy_ms": 2203.308296343591,
+      "mean_energy_proxy": 1.8703837474227876,
+      "mean_task_completion": 0.888641425389755
+    },
+    "round_robin": {
+      "policy": "round_robin",
+      "split": "validation",
+      "episodes": 10,
+      "total_steps": 449,
+      "mean_cumulative_reward": 17.96241088282342,
+      "std_cumulative_reward": 9.046849443825012,
+      "mean_step_reward": 0.3825679213299164,
+      "action_counts": [
+        80,
+        79,
+        76,
+        74,
+        70,
+        70
+      ],
+      "action_frequencies": [
+        0.17817371937639198,
+        0.1759465478841871,
+        0.16926503340757237,
+        0.16481069042316257,
+        0.155902004454343,
+        0.155902004454343
+      ],
+      "mean_throughput_packets": 305.1966555312763,
+      "mean_pdr": 0.9672933277391219,
+      "mean_dropped_packets": 0.6369711368281605,
+      "mean_drop_ratio": 0.000610710585900443,
+      "mean_latency_proxy_ms": 1581.9293614196586,
+      "mean_energy_proxy": 1.8561302010616816,
+      "mean_task_completion": 0.8841870824053452
+    },
+    "least_queue": {
+      "policy": "least_queue",
+      "split": "validation",
+      "episodes": 10,
+      "total_steps": 449,
+      "mean_cumulative_reward": 19.33174264403206,
+      "std_cumulative_reward": 9.824812497071722,
+      "mean_step_reward": 0.4075163003740753,
+      "action_counts": [
+        442,
+        7,
+        0,
+        0,
+        0,
+        0
+      ],
+      "action_frequencies": [
+        0.9844097995545658,
+        0.015590200445434299,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_throughput_packets": 309.8922008639941,
+      "mean_pdr": 0.987043295252433,
+      "mean_dropped_packets": 0.0,
+      "mean_drop_ratio": 0.0,
+      "mean_latency_proxy_ms": 393.77909342925074,
+      "mean_energy_proxy": 1.52744107933963,
+      "mean_task_completion": 0.9621380846325167
+    }
+  },
+  "test": {
+    "dqn": {
+      "policy": "dqn",
+      "split": "test",
+      "episodes": 10,
+      "total_steps": 484,
+      "mean_cumulative_reward": 19.36844695888218,
+      "std_cumulative_reward": 9.216999222630694,
+      "mean_step_reward": 0.3973796268497998,
+      "action_counts": [
+        191,
+        95,
+        141,
+        36,
+        15,
+        6
+      ],
+      "action_frequencies": [
+        0.39462809917355374,
+        0.1962809917355372,
+        0.29132231404958675,
+        0.0743801652892562,
+        0.030991735537190084,
+        0.012396694214876033
+      ],
+      "mean_throughput_packets": 240.57042651240255,
+      "mean_pdr": 0.9649441898799437,
+      "mean_dropped_packets": 13.489606915350194,
+      "mean_drop_ratio": 0.00820743343922913,
+      "mean_latency_proxy_ms": 4524.700590510102,
+      "mean_energy_proxy": 1.3609733062073976,
+      "mean_task_completion": 0.9235537190082644
+    },
+    "random": {
+      "policy": "random",
+      "split": "test",
+      "episodes": 10,
+      "total_steps": 484,
+      "mean_cumulative_reward": 17.968192185093837,
+      "std_cumulative_reward": 8.716879869590587,
+      "mean_step_reward": 0.37074437724753245,
+      "action_counts": [
+        88,
+        78,
+        82,
+        74,
+        92,
+        70
+      ],
+      "action_frequencies": [
+        0.18181818181818182,
+        0.16115702479338842,
+        0.16942148760330578,
+        0.15289256198347106,
+        0.19008264462809918,
+        0.1446280991735537
+      ],
+      "mean_throughput_packets": 224.22986378370084,
+      "mean_pdr": 0.9365135687109237,
+      "mean_dropped_packets": 29.82534870694408,
+      "mean_drop_ratio": 0.018843613680126336,
+      "mean_latency_proxy_ms": 5650.110469108644,
+      "mean_energy_proxy": 1.807448956688254,
+      "mean_task_completion": 0.890495867768595
+    },
+    "round_robin": {
+      "policy": "round_robin",
+      "split": "test",
+      "episodes": 10,
+      "total_steps": 484,
+      "mean_cumulative_reward": 18.008612310615415,
+      "std_cumulative_reward": 8.62104001181287,
+      "mean_step_reward": 0.37322678008650084,
+      "action_counts": [
+        85,
+        83,
+        83,
+        82,
+        76,
+        75
+      ],
+      "action_frequencies": [
+        0.1756198347107438,
+        0.17148760330578514,
+        0.17148760330578514,
+        0.16942148760330578,
+        0.15702479338842976,
+        0.15495867768595042
+      ],
+      "mean_throughput_packets": 230.023800538109,
+      "mean_pdr": 0.9380110248673101,
+      "mean_dropped_packets": 24.02865713266183,
+      "mean_drop_ratio": 0.013970960852945566,
+      "mean_latency_proxy_ms": 4233.018259570553,
+      "mean_energy_proxy": 1.8280862170947663,
+      "mean_task_completion": 0.8863636363636364
+    },
+    "least_queue": {
+      "policy": "least_queue",
+      "split": "test",
+      "episodes": 10,
+      "total_steps": 484,
+      "mean_cumulative_reward": 18.787640246435885,
+      "std_cumulative_reward": 8.92634673923005,
+      "mean_step_reward": 0.38675552258200296,
+      "action_counts": [
+        457,
+        18,
+        9,
+        0,
+        0,
+        0
+      ],
+      "action_frequencies": [
+        0.9442148760330579,
+        0.0371900826446281,
+        0.01859504132231405,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "mean_throughput_packets": 231.60604147967416,
+      "mean_pdr": 0.9494522153046747,
+      "mean_dropped_packets": 22.453991948078773,
+      "mean_drop_ratio": 0.012549269247432293,
+      "mean_latency_proxy_ms": 1521.8984168928191,
+      "mean_energy_proxy": 1.5331119587327542,
+      "mean_task_completion": 0.9132231404958677
+    }
+  }
+}

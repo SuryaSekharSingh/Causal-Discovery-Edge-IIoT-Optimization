@@ -1,0 +1,40 @@
+{
+  "service_capacity": [
+    751.5999696268038,
+    349.900003959772,
+    299.9999909322567
+  ],
+  "buffer_capacity": [
+    1503.1999392536077,
+    699.800007919544,
+    599.9999818645134
+  ],
+  "base_latency_ms": [
+    5.0,
+    10.0,
+    20.0
+  ],
+  "idle_energy": [
+    1.0,
+    0.65,
+    0.35
+  ],
+  "dynamic_energy": [
+    2.5,
+    1.4,
+    0.7
+  ],
+  "latency_budget_ms": 15000.0,
+  "pdr_completion_threshold": 0.99,
+  "window_seconds": 60.0,
+  "fitted_on_split": "train",
+  "server_names": [
+    "server_a_performance",
+    "server_b_balanced",
+    "server_c_energy"
+  ],
+  "metric_status": {
+    "latency_proxy_ms": "synthetic queueing proxy; not measured latency",
+    "energy_proxy": "synthetic energy proxy; not measured power consumption"
+  }
+}

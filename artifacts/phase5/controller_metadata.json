@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "backend": "exact_simulator_scm",
+  "surrogate_controls_actions": false,
+  "one_step_only": true,
+  "state_information": [
+    "actual_demand",
+    "actual_queues",
+    "frozen_embedding"
+  ],
+  "resolved_limits": {
+    "latency_proxy_ms": 15000.0,
+    "energy_proxy": 5.28,
+    "drop_ratio": 0.01,
+    "pdr": 0.99
+  },
+  "seed": 42,
+  "test_usage": "evaluation after surrogate and safety configuration frozen",
+  "metric_status": {
+    "latency_proxy_ms": "synthetic",
+    "energy_proxy": "synthetic"
+  }
+}

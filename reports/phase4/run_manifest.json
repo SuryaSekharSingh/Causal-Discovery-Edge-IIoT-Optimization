@@ -1,0 +1,148 @@
+{
+  "config": {
+    "causal_dataset_csv": "data/interim/causal_dataset.csv",
+    "phase3_artifacts_dir": "artifacts/phase3",
+    "phase4_artifacts_dir": "artifacts/phase4",
+    "phase4_reports_dir": "reports/phase4",
+    "transition_dataset_csv": "data/interim/phase4_action_outcomes.csv",
+    "random_seed": 42,
+    "window_seconds": 60,
+    "environment": {
+      "embedding_clip": 10.0,
+      "episode_horizon": 64,
+      "capacity_quantiles": [
+        0.95,
+        0.9,
+        0.75
+      ],
+      "buffer_capacity_multiplier": 2.0,
+      "base_latency_ms": [
+        5.0,
+        10.0,
+        20.0
+      ],
+      "idle_energy": [
+        1.0,
+        0.65,
+        0.35
+      ],
+      "dynamic_energy": [
+        2.5,
+        1.4,
+        0.7
+      ],
+      "latency_budget_ms": 15000.0,
+      "pdr_completion_threshold": 0.99,
+      "reward_weights": {
+        "throughput": 0.3,
+        "pdr": 0.25,
+        "completion": 0.15,
+        "latency": -0.15,
+        "energy": -0.1,
+        "drops": -0.05
+      },
+      "actions": [
+        {
+          "name": "route_server_a",
+          "fractions": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "route_server_b",
+          "fractions": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "name": "route_server_c",
+          "fractions": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "balanced",
+          "fractions": [
+            0.3333333333,
+            0.3333333333,
+            0.3333333334
+          ]
+        },
+        {
+          "name": "performance_weighted",
+          "fractions": [
+            0.6,
+            0.3,
+            0.1
+          ]
+        },
+        {
+          "name": "energy_weighted",
+          "fractions": [
+            0.1,
+            0.25,
+            0.65
+          ]
+        }
+      ]
+    },
+    "dqn": {
+      "device": "cpu",
+      "total_timesteps": 100000,
+      "learning_rate": 0.0001,
+      "buffer_size": 50000,
+      "learning_starts": 2000,
+      "batch_size": 128,
+      "gamma": 0.99,
+      "train_freq": 4,
+      "gradient_steps": 1,
+      "target_update_interval": 1000,
+      "exploration_fraction": 0.3,
+      "exploration_final_eps": 0.05,
+      "net_arch": [
+        256,
+        128
+      ],
+      "evaluation_frequency": 5000,
+      "evaluation_start_count": 10
+    },
+    "transition_generation": {
+      "episodes": {
+        "train": 100,
+        "validation": 20,
+        "test": 20
+      },
+      "episode_horizon": 64
+    },
+    "reports": {
+      "generate_plots": true
+    },
+    "overwrite_outputs": false
+  },
+  "package_versions": {
+    "torch": "2.10.0",
+    "gymnasium": "1.3.0",
+    "stable-baselines3": "2.9.0",
+    "tensorboard": "2.21.0",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "matplotlib": "3.10.9"
+  },
+  "inputs": {
+    "causal_dataset_sha256": "a7e536d02f3e1f2607d876298e289a43d14efc6e48a9ae5aade0a0af2c575e8f",
+    "phase3_encoder_sha256": "9ce8d714e5b7642d6fc3dc93d779f2f3fd1ac679aed9853fc24d5c288c5ebe81",
+    "train_embeddings_sha256": "68e47f17a1ecba62ef1023c3287deb10f124faf83458550d492fc5ccb9c6968a",
+    "validation_embeddings_sha256": "388eb78b7854abe432c2488fdece9439af6e98f61fda84b001a29b3346e7e548",
+    "test_embeddings_sha256": "1a2730b16ab0c58bce38251666b51110501a02fdb3ee766ab77a6c687a382011"
+  },
+  "outputs": {
+    "best_model_sha256": "5a5fadb4442b8e727d262f654a8133cd727e5602a13fea4c2400518f60076109",
+    "transition_dataset_sha256": "9097f1bbc0d5261f872d8a326f9a2ae90c5b2420729bb03dfc70b21665defc30"
+  }
+}

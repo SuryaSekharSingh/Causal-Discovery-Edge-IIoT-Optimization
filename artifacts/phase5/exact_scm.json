@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "mechanism_version": "phase4_equations_v1",
+  "calibration": {
+    "service_capacity": [
+      751.5999696268038,
+      349.900003959772,
+      299.9999909322567
+    ],
+    "buffer_capacity": [
+      1503.1999392536077,
+      699.800007919544,
+      599.9999818645134
+    ],
+    "base_latency_ms": [
+      5.0,
+      10.0,
+      20.0
+    ],
+    "idle_energy": [
+      1.0,
+      0.65,
+      0.35
+    ],
+    "dynamic_energy": [
+      2.5,
+      1.4,
+      0.7
+    ],
+    "latency_budget_ms": 15000.0,
+    "pdr_completion_threshold": 0.99,
+    "window_seconds": 60.0,
+    "fitted_on_split": "train",
+    "server_names": [
+      "server_a_performance",
+      "server_b_balanced",
+      "server_c_energy"
+    ],
+    "metric_status": {
+      "latency_proxy_ms": "synthetic queueing proxy; not measured latency",
+      "energy_proxy": "synthetic energy proxy; not measured power consumption"
+    }
+  },
+  "environment": {
+    "embedding_clip": 10.0,
+    "episode_horizon": 64,
+    "capacity_quantiles": [
+      0.95,
+      0.9,
+      0.75
+    ],
+    "buffer_capacity_multiplier": 2.0,
+    "base_latency_ms": [
+      5.0,
+      10.0,
+      20.0
+    ],
+    "idle_energy": [
+      1.0,
+      0.65,
+      0.35
+    ],
+    "dynamic_energy": [
+      2.5,
+      1.4,
+      0.7
+    ],
+    "latency_budget_ms": 15000.0,
+    "pdr_completion_threshold": 0.99,
+    "reward_weights": {
+      "throughput": 0.3,
+      "pdr": 0.25,
+      "completion": 0.15,
+      "latency": -0.15,
+      "energy": -0.1,
+      "drops": -0.05
+    },
+    "actions": [
+      {
+        "name": "route_server_a",
+        "fractions": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "route_server_b",
+        "fractions": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "name": "route_server_c",
+        "fractions": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "name": "balanced",
+        "fractions": [
+          0.3333333333,
+          0.3333333333,
+          0.3333333334
+        ]
+      },
+      {
+        "name": "performance_weighted",
+        "fractions": [
+          0.6,
+          0.3,
+          0.1
+        ]
+      },
+      {
+        "name": "energy_weighted",
+        "fractions": [
+          0.1,
+          0.25,
+          0.65
+        ]
+      }
+    ]
+  },
+  "calibration_id": "2a0059985d54d151244dd0334402d3794916a1e206acc8d127443a24f73d515d",
+  "units": {
+    "latency_proxy_ms": "ms",
+    "energy_proxy": "synthetic units"
+  }
+}

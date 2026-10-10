@@ -1,0 +1,392 @@
+{
+  "train": {
+    "metrics": {
+      "raw": {
+        "throughput_packets": {
+          "mae": 31.379760061452824,
+          "rmse": 98.1280195406127,
+          "r2": 0.8124650010771964,
+          "normalized_mse": 0.004902300008318795
+        },
+        "pdr": {
+          "mae": 0.03187731641322207,
+          "rmse": 0.11302413317719533,
+          "r2": 0.6117876095528323,
+          "normalized_mse": 0.012774454680456385
+        },
+        "drop_ratio": {
+          "mae": 0.009575271752190856,
+          "rmse": 0.05440653642826466,
+          "r2": 0.28724973379330676,
+          "normalized_mse": 0.002960071206120089
+        },
+        "latency_proxy_ms": {
+          "mae": 3815.4296954677093,
+          "rmse": 16881.204651311124,
+          "r2": 0.20416696335895568,
+          "normalized_mse": 1.2665558687975478
+        },
+        "energy_proxy": {
+          "mae": 0.11539548256848085,
+          "rmse": 0.38231890515221,
+          "r2": 0.8501122132113162,
+          "normalized_mse": 0.003355549706996891
+        },
+        "post_queue_server_a": {
+          "mae": 8.403095492085749,
+          "rmse": 57.86037717200931,
+          "r2": 0.2782960936512312,
+          "normalized_mse": 0.0014815933552626906
+        },
+        "post_queue_server_b": {
+          "mae": 18.562759210336957,
+          "rmse": 79.07280962074397,
+          "r2": 0.3358805996718184,
+          "normalized_mse": 0.012767517293759887
+        },
+        "post_queue_server_c": {
+          "mae": 20.681265901378808,
+          "rmse": 77.63909744019615,
+          "r2": 0.515726429240662,
+          "normalized_mse": 0.016743971710334326
+        }
+      },
+      "bounded": {
+        "throughput_packets": {
+          "mae": 31.379760061452824,
+          "rmse": 98.1280195406127,
+          "r2": 0.8124650010771964,
+          "normalized_mse": 0.004902300008318795
+        },
+        "pdr": {
+          "mae": 0.03187731641322207,
+          "rmse": 0.11302413317719533,
+          "r2": 0.6117876095528323,
+          "normalized_mse": 0.012774454680456385
+        },
+        "drop_ratio": {
+          "mae": 0.009575271752190856,
+          "rmse": 0.05440653642826466,
+          "r2": 0.28724973379330676,
+          "normalized_mse": 0.002960071206120089
+        },
+        "latency_proxy_ms": {
+          "mae": 3815.4296954677093,
+          "rmse": 16881.204651311124,
+          "r2": 0.20416696335895568,
+          "normalized_mse": 1.2665558687975478
+        },
+        "energy_proxy": {
+          "mae": 0.11539548256848085,
+          "rmse": 0.38231890515221,
+          "r2": 0.8501122132113162,
+          "normalized_mse": 0.003355549706996891
+        },
+        "post_queue_server_a": {
+          "mae": 8.403095492085749,
+          "rmse": 57.86037717200931,
+          "r2": 0.2782960936512312,
+          "normalized_mse": 0.0014815933552626906
+        },
+        "post_queue_server_b": {
+          "mae": 18.562759210336957,
+          "rmse": 79.07280962074397,
+          "r2": 0.3358805996718184,
+          "normalized_mse": 0.012767517293759887
+        },
+        "post_queue_server_c": {
+          "mae": 20.681265901378808,
+          "rmse": 77.63909744019615,
+          "r2": 0.515726429240662,
+          "normalized_mse": 0.016743971710334326
+        }
+      }
+    },
+    "empirical_state_coverage": 0.9928414096916299,
+    "unsupported_fraction": 0.10517621145374449,
+    "false_safe_fraction": 0.0023556045031815956,
+    "false_unsafe_fraction": 0.022454723445912872,
+    "raw_throughput_conservation_mae": 49.36510542024419,
+    "packet_conservation_mae": {
+      "raw": 58.95514787522152,
+      "bounded": 58.95514787522152
+    },
+    "qualification": "diagnostic_only",
+    "controls_actions": false,
+    "quality_flags": [
+      "uninformative_residual_band",
+      "unsupported_states_present"
+    ],
+    "normalized_residual_radius": 8.98320333844759,
+    "interval_full_width_by_target": {
+      "throughput_packets": 25179.918320199507,
+      "pdr": 17.96640667689518,
+      "drop_ratio": 17.96640667689518,
+      "latency_proxy_ms": 269496.1001534277,
+      "energy_proxy": 118.57828406750818,
+      "post_queue_server_a": 27007.101425314446,
+      "post_queue_server_b": 12572.891534776994,
+      "post_queue_server_c": 10779.84368030758
+    }
+  },
+  "validation": {
+    "metrics": {
+      "raw": {
+        "throughput_packets": {
+          "mae": 19.653642031886662,
+          "rmse": 67.30068752974947,
+          "r2": 0.7246331438073648,
+          "normalized_mse": 0.0023059655752424735
+        },
+        "pdr": {
+          "mae": 0.019805914814193092,
+          "rmse": 0.09041047517923757,
+          "r2": 0.5176604125037573,
+          "normalized_mse": 0.008174054022135533
+        },
+        "drop_ratio": {
+          "mae": 0.004096080961281286,
+          "rmse": 0.032009082111430186,
+          "r2": 0.20865681859630214,
+          "normalized_mse": 0.00102458133761628
+        },
+        "latency_proxy_ms": {
+          "mae": 2024.9408854516364,
+          "rmse": 11901.156622134531,
+          "r2": 0.19210193809908704,
+          "normalized_mse": 0.6295001286425627
+        },
+        "energy_proxy": {
+          "mae": 0.07282877682673783,
+          "rmse": 0.25827225262452835,
+          "r2": 0.8648896815935824,
+          "normalized_mse": 0.0015313259062384801
+        },
+        "post_queue_server_a": {
+          "mae": 2.6140316920787825,
+          "rmse": 12.767163123034553,
+          "r2": 0.06889927687188868,
+          "normalized_mse": 7.213654129321084e-05
+        },
+        "post_queue_server_b": {
+          "mae": 8.951279192620683,
+          "rmse": 50.304168142526954,
+          "r2": 0.3046471777548837,
+          "normalized_mse": 0.005167256939774704
+        },
+        "post_queue_server_c": {
+          "mae": 11.983387619077009,
+          "rmse": 59.38880598362954,
+          "r2": 0.45429893042700764,
+          "normalized_mse": 0.00979730691493306
+        }
+      },
+      "bounded": {
+        "throughput_packets": {
+          "mae": 19.653642031886662,
+          "rmse": 67.30068752974947,
+          "r2": 0.7246331438073648,
+          "normalized_mse": 0.0023059655752424735
+        },
+        "pdr": {
+          "mae": 0.019805914814193092,
+          "rmse": 0.09041047517923757,
+          "r2": 0.5176604125037573,
+          "normalized_mse": 0.008174054022135533
+        },
+        "drop_ratio": {
+          "mae": 0.004096080961281286,
+          "rmse": 0.032009082111430186,
+          "r2": 0.20865681859630214,
+          "normalized_mse": 0.00102458133761628
+        },
+        "latency_proxy_ms": {
+          "mae": 2024.9408854516364,
+          "rmse": 11901.156622134531,
+          "r2": 0.19210193809908704,
+          "normalized_mse": 0.6295001286425627
+        },
+        "energy_proxy": {
+          "mae": 0.07282877682673783,
+          "rmse": 0.25827225262452835,
+          "r2": 0.8648896815935824,
+          "normalized_mse": 0.0015313259062384801
+        },
+        "post_queue_server_a": {
+          "mae": 2.6140316920787825,
+          "rmse": 12.767163123034553,
+          "r2": 0.06889927687188868,
+          "normalized_mse": 7.213654129321084e-05
+        },
+        "post_queue_server_b": {
+          "mae": 8.951279192620683,
+          "rmse": 50.304168142526954,
+          "r2": 0.3046471777548837,
+          "normalized_mse": 0.005167256939774704
+        },
+        "post_queue_server_c": {
+          "mae": 11.983387619077009,
+          "rmse": 59.38880598362954,
+          "r2": 0.45429893042700764,
+          "normalized_mse": 0.00979730691493306
+        }
+      }
+    },
+    "empirical_state_coverage": 0.9963833634719711,
+    "unsupported_fraction": 0.05877034358047016,
+    "false_safe_fraction": 0.0009041591320072332,
+    "false_unsafe_fraction": 0.03179626280892104,
+    "raw_throughput_conservation_mae": 26.028009134900124,
+    "packet_conservation_mae": {
+      "raw": 28.7404279121939,
+      "bounded": 28.7404279121939
+    },
+    "qualification": "diagnostic_only",
+    "controls_actions": false,
+    "quality_flags": [
+      "uninformative_residual_band",
+      "unsupported_states_present"
+    ],
+    "normalized_residual_radius": 8.98320333844759,
+    "interval_full_width_by_target": {
+      "throughput_packets": 25179.918320199507,
+      "pdr": 17.96640667689518,
+      "drop_ratio": 17.96640667689518,
+      "latency_proxy_ms": 269496.1001534277,
+      "energy_proxy": 118.57828406750818,
+      "post_queue_server_a": 27007.101425314446,
+      "post_queue_server_b": 12572.891534776994,
+      "post_queue_server_c": 10779.84368030758
+    }
+  },
+  "test": {
+    "metrics": {
+      "raw": {
+        "throughput_packets": {
+          "mae": 53.850264310334424,
+          "rmse": 148.23742474139993,
+          "r2": 0.768561024782366,
+          "normalized_mse": 0.011187409650198505
+        },
+        "pdr": {
+          "mae": 0.05028379925968046,
+          "rmse": 0.15611145808708898,
+          "r2": 0.5946112136714974,
+          "normalized_mse": 0.024370787346076943
+        },
+        "drop_ratio": {
+          "mae": 0.018946015448237426,
+          "rmse": 0.08645631140652527,
+          "r2": 0.359536787715395,
+          "normalized_mse": 0.0074746937820220705
+        },
+        "latency_proxy_ms": {
+          "mae": 7060.854127789193,
+          "rmse": 24476.24710806724,
+          "r2": 0.14720911940555037,
+          "normalized_mse": 2.662607433311866
+        },
+        "energy_proxy": {
+          "mae": 0.20976532578829302,
+          "rmse": 0.6008933619245534,
+          "r2": 0.7847730938227304,
+          "normalized_mse": 0.008289091653007171
+        },
+        "post_queue_server_a": {
+          "mae": 24.636372014594453,
+          "rmse": 134.37712941259488,
+          "r2": 0.2960739000442839,
+          "normalized_mse": 0.007991296042543729
+        },
+        "post_queue_server_b": {
+          "mae": 28.545781783717594,
+          "rmse": 104.130928226421,
+          "r2": 0.39451127977687406,
+          "normalized_mse": 0.022141732177986404
+        },
+        "post_queue_server_c": {
+          "mae": 27.817817908633092,
+          "rmse": 87.8096374204938,
+          "r2": 0.5796192680420398,
+          "normalized_mse": 0.021418146916757773
+        }
+      },
+      "bounded": {
+        "throughput_packets": {
+          "mae": 53.850264310334424,
+          "rmse": 148.23742474139993,
+          "r2": 0.768561024782366,
+          "normalized_mse": 0.011187409650198505
+        },
+        "pdr": {
+          "mae": 0.05028379925968046,
+          "rmse": 0.15611145808708898,
+          "r2": 0.5946112136714974,
+          "normalized_mse": 0.024370787346076943
+        },
+        "drop_ratio": {
+          "mae": 0.018946015448237426,
+          "rmse": 0.08645631140652527,
+          "r2": 0.359536787715395,
+          "normalized_mse": 0.0074746937820220705
+        },
+        "latency_proxy_ms": {
+          "mae": 7060.854127789193,
+          "rmse": 24476.24710806724,
+          "r2": 0.14720911940555037,
+          "normalized_mse": 2.662607433311866
+        },
+        "energy_proxy": {
+          "mae": 0.20976532578829302,
+          "rmse": 0.6008933619245534,
+          "r2": 0.7847730938227304,
+          "normalized_mse": 0.008289091653007171
+        },
+        "post_queue_server_a": {
+          "mae": 24.636372014594453,
+          "rmse": 134.37712941259488,
+          "r2": 0.2960739000442839,
+          "normalized_mse": 0.007991296042543729
+        },
+        "post_queue_server_b": {
+          "mae": 28.545781783717594,
+          "rmse": 104.130928226421,
+          "r2": 0.39451127977687406,
+          "normalized_mse": 0.022141732177986404
+        },
+        "post_queue_server_c": {
+          "mae": 27.817817908633092,
+          "rmse": 87.8096374204938,
+          "r2": 0.5796192680420398,
+          "normalized_mse": 0.021418146916757773
+        }
+      }
+    },
+    "empirical_state_coverage": 0.9781783681214421,
+    "unsupported_fraction": 0.16698292220113853,
+    "false_safe_fraction": 0.007115749525616698,
+    "false_unsafe_fraction": 0.03889943074003795,
+    "raw_throughput_conservation_mae": 93.53431100987576,
+    "packet_conservation_mae": {
+      "raw": 131.5697607454475,
+      "bounded": 131.5697607454475
+    },
+    "qualification": "diagnostic_only",
+    "controls_actions": false,
+    "quality_flags": [
+      "uninformative_residual_band",
+      "unsupported_states_present"
+    ],
+    "normalized_residual_radius": 8.98320333844759,
+    "interval_full_width_by_target": {
+      "throughput_packets": 25179.918320199507,
+      "pdr": 17.96640667689518,
+      "drop_ratio": 17.96640667689518,
+      "latency_proxy_ms": 269496.1001534277,
+      "energy_proxy": 118.57828406750818,
+      "post_queue_server_a": 27007.101425314446,
+      "post_queue_server_b": 12572.891534776994,
+      "post_queue_server_c": 10779.84368030758
+    }
+  }
+}

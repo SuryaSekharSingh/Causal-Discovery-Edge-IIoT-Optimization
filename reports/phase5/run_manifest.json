@@ -1,0 +1,210 @@
+{
+  "config": {
+    "phase4_reports_dir": "reports/phase4",
+    "phase4_artifacts_dir": "artifacts/phase4",
+    "artifacts_dir": "artifacts/phase5",
+    "reports_dir": "reports/phase5",
+    "seed": 42,
+    "overwrite_outputs": false,
+    "safety": {
+      "latency_proxy_ms": 15000.0,
+      "energy_fraction": 0.8,
+      "drop_ratio": 0.01,
+      "pdr": 0.99,
+      "tolerance": 1e-08
+    },
+    "surrogate": {
+      "n_estimators": 200,
+      "coverage": 0.95
+    },
+    "bootstrap_resamples": 2000,
+    "generate_plots": true
+  },
+  "phase4_config": {
+    "causal_dataset_csv": "data/interim/causal_dataset.csv",
+    "phase3_artifacts_dir": "artifacts/phase3",
+    "phase4_artifacts_dir": "artifacts/phase4",
+    "phase4_reports_dir": "reports/phase4",
+    "transition_dataset_csv": "data/interim/phase4_action_outcomes.csv",
+    "random_seed": 42,
+    "window_seconds": 60,
+    "environment": {
+      "embedding_clip": 10.0,
+      "episode_horizon": 64,
+      "capacity_quantiles": [
+        0.95,
+        0.9,
+        0.75
+      ],
+      "buffer_capacity_multiplier": 2.0,
+      "base_latency_ms": [
+        5.0,
+        10.0,
+        20.0
+      ],
+      "idle_energy": [
+        1.0,
+        0.65,
+        0.35
+      ],
+      "dynamic_energy": [
+        2.5,
+        1.4,
+        0.7
+      ],
+      "latency_budget_ms": 15000.0,
+      "pdr_completion_threshold": 0.99,
+      "reward_weights": {
+        "throughput": 0.3,
+        "pdr": 0.25,
+        "completion": 0.15,
+        "latency": -0.15,
+        "energy": -0.1,
+        "drops": -0.05
+      },
+      "actions": [
+        {
+          "name": "route_server_a",
+          "fractions": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "route_server_b",
+          "fractions": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "name": "route_server_c",
+          "fractions": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "balanced",
+          "fractions": [
+            0.3333333333,
+            0.3333333333,
+            0.3333333334
+          ]
+        },
+        {
+          "name": "performance_weighted",
+          "fractions": [
+            0.6,
+            0.3,
+            0.1
+          ]
+        },
+        {
+          "name": "energy_weighted",
+          "fractions": [
+            0.1,
+            0.25,
+            0.65
+          ]
+        }
+      ]
+    },
+    "dqn": {
+      "device": "cpu",
+      "total_timesteps": 100000,
+      "learning_rate": 0.0001,
+      "buffer_size": 50000,
+      "learning_starts": 2000,
+      "batch_size": 128,
+      "gamma": 0.99,
+      "train_freq": 4,
+      "gradient_steps": 1,
+      "target_update_interval": 1000,
+      "exploration_fraction": 0.3,
+      "exploration_final_eps": 0.05,
+      "net_arch": [
+        256,
+        128
+      ],
+      "evaluation_frequency": 5000,
+      "evaluation_start_count": 10
+    },
+    "transition_generation": {
+      "episodes": {
+        "train": 100,
+        "validation": 20,
+        "test": 20
+      },
+      "episode_horizon": 64
+    },
+    "reports": {
+      "generate_plots": true
+    },
+    "overwrite_outputs": false
+  },
+  "inputs": {
+    "data\\interim\\causal_dataset.csv": "a7e536d02f3e1f2607d876298e289a43d14efc6e48a9ae5aade0a0af2c575e8f",
+    "artifacts\\phase3\\encoder.pt": "9ce8d714e5b7642d6fc3dc93d779f2f3fd1ac679aed9853fc24d5c288c5ebe81",
+    "artifacts\\phase3\\embeddings\\train.pt": "68e47f17a1ecba62ef1023c3287deb10f124faf83458550d492fc5ccb9c6968a",
+    "artifacts\\phase3\\embeddings\\validation.pt": "388eb78b7854abe432c2488fdece9439af6e98f61fda84b001a29b3346e7e548",
+    "artifacts\\phase3\\embeddings\\test.pt": "1a2730b16ab0c58bce38251666b51110501a02fdb3ee766ab77a6c687a382011",
+    "artifacts\\phase4\\best_model.zip": "5a5fadb4442b8e727d262f654a8133cd727e5602a13fea4c2400518f60076109",
+    "data\\interim\\phase4_action_outcomes.csv": "9097f1bbc0d5261f872d8a326f9a2ae90c5b2420729bb03dfc70b21665defc30",
+    "reports\\phase4\\run_manifest.json": "e95d5408851f64c0faec32eaf600f000f42d470ac6fb4bf7d4be50915b348803",
+    "artifacts\\phase4\\environment_calibration.json": "25ecba213378308be48a7bb93d6b83d71f1c8b53676848f3e5cde6b87e645bc7",
+    "artifacts\\phase4\\model_metadata.json": "b95ca4c93b3e2f8cbd4fa63897421f3dfcf78f3e5319d26c0a032f91332070d7",
+    "artifacts\\phase4\\evaluation_start_states.json": "6081241348f4d72b8cca6507e4bc0d7263c4e9bfacde99347dca5a0ac8c16cc5",
+    "artifacts\\phase2\\refined_dag.json": "911c52414d322feb831d2005598a79dfd9e094c95a92566572b21010080d7bb1",
+    "reports\\phase2\\causal_variable_decisions.json": "aae76fcc4be867ff09021188936a4b283bc41ea39e739aa7df09ef2fbe75a008",
+    "artifacts\\phase2\\causal_feature_mapping.json": "d018143f67bee8672eb24671e03ec195ed2723bb09ab92d032ea70bbdbe86e45",
+    "artifacts\\phase3\\model_metadata.json": "ce266e12f37e8a8f61b1b1a5c3cca42a549fb5ca20c1aef76369497042dc427a",
+    "config\\phase4_config.json": "75f8c117882b044d397d8c20eaf136b6ea2518257228864ae6e17b52b940b19c",
+    "src\\counterfactual_controller.py": "068a9ce5abebb05a01063b1d7293ae66c997a30f41069108c2dd7fa49d43f9e1",
+    "src\\phase5_surrogate.py": "062eb9baac2014ff7e6e70a48c3f5a7702e912000a37e72f71d0a5444bdbaad1",
+    "src\\phase5_pipeline.py": "4b911c28e8ee1d8f760c2886095f0f2c130f583c8835c8aae1bfe8cfe15d701d",
+    "src\\rl_environment.py": "89872bbd707aaf2e85b605cb5b08ec98b5b9a89762e25110bc93987d66b64d82",
+    "src\\rl_agent.py": "ace97e5a3e526a622bd35bf6064f0b3d98aa7a8387eddd1371ae3d9c813edd8c"
+  },
+  "outputs": {
+    "artifacts": {
+      "action_dag.json": "a3ef9c6731fd07103e1bd95a747cfc9e6de6a6eeb99d8d25d25cc5e86ef3fcff",
+      "completion_status.json": "9c91de4b81a6a85cee1547341650c86602e4e626966d622ce30b7e815a348811",
+      "controller_metadata.json": "732e2354101eae7b07d91f00856c7f921473ebe920fcd0ea844d32b2596a3b58",
+      "evaluation_start_states.json": "6081241348f4d72b8cca6507e4bc0d7263c4e9bfacde99347dca5a0ac8c16cc5",
+      "exact_scm.json": "4b0a204287f8c143c7a21eca0504af13732bb4c7fb2b55615b6551494faedc8f",
+      "residual_calibration.json": "6bc67e9e6805b92421987ccd6eee8ee908f14fd27f7e641b81fbffc21267fb0c",
+      "safety_config.json": "89fc6e0485bd42333f955f8614f31ac7d4a2d17a9754b8ffa9b13dda0d48702d",
+      "surrogate.joblib": "62ab7bfdee53430b6d7d6897661c48456a8763db94b48810c5a2fc0e252ef785",
+      "surrogate_metadata.json": "98e2e6b253e2db9bd54f56ed4d354ae8e61ac84617d86400e78409c9e85df57d"
+    },
+    "reports": {
+      "action_distribution.csv": "5fa08c3ae918e4818aae0557e06ba5412e5917936f09bfd54a7a003d8d317013",
+      "bootstrap_intervals.json": "41a4de79b85d6e778d77718c541020f3a6d9522a343fc59de4284c38b4948de7",
+      "decision_actions.csv": "2c2e55ac0ad22d07008ff8b5f12100741e1b5da7d387d0008771933ed186e13e",
+      "evaluation_episodes.csv": "db9819adbbf457b5f2c4e6c7b6225b5630eb2815a58664bac41171b2bb69f966",
+      "evaluation_metrics.json": "4003ae9a494b216371e5f412fbaa132296f0fee5d4d28b3d97d57eac7c45977b",
+      "explanations.jsonl": "b87db88309e16406db5495a0dfa90dd32806a19f957558c9ad745810ca72608d",
+      "input_audit.json": "23d914a8e5efd0c8f2a02e711ff3814a5dd4788863b08aca3bd1d4746a6810dc",
+      "plot_status.json": "06fdfe42541f14b001fb06b35be74475ac51c054815f023f38ae07f5646bfb55",
+      "policy_comparison.png": "eded0d217ef478b2d10c59cfc7d858701cc3298a981c8d09e49c2b18d902099a",
+      "prediction_quality.png": "bd4be427aedef1ac1dd7fbfb253354cb91f3d4939544b196ccb569ed7c1dedc7",
+      "safety_comparison.png": "c5a5eb8029bc1977ec983a1d4845073d2c8952cb8c20ba18911e93d16bfbfa52",
+      "surrogate_metrics.json": "f433b8c34c635a979187031b93db2db85cf267e7487b853bad018dbaf3ddf153",
+      "surrogate_predictions.csv": "e21864ff3ec3c978d8802b4f5e131a824b621133ef6399d16eae02b975bca5c5",
+      "violation_summary.json": "a849fb7416bce5dbe9e6320c74733a169b1c8a4943dc7839936ce226e87b8bff",
+      "artifact_audit.json": "5ef84cd58a9a78226ec623ca5525106806ba48cf17c6f3ca42b1f0ccf93f4271"
+    }
+  },
+  "package_versions": {
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "torch": "2.10.0",
+    "scikit-learn": "1.7.2",
+    "stable-baselines3": "2.9.0",
+    "joblib": "1.5.3"
+  }
+}

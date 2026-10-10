@@ -1,0 +1,18 @@
+{
+  "residual_radius": 8.98320333844759,
+  "nominal_coverage": 0.95,
+  "support_min": [
+    1.000001216004911,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "support_max": [
+    1313.9999732801796,
+    0.024481117501625474,
+    0.0633037832565658,
+    0.07666669056981684
+  ],
+  "calibration_states": 589,
+  "interval_status": "empirical; temporal dependence prevents universal coverage guarantees"
+}

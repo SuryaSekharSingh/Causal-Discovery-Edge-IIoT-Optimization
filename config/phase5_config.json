@@ -1,0 +1,12 @@
+{
+  "phase4_reports_dir": "reports/phase4",
+  "phase4_artifacts_dir": "artifacts/phase4",
+  "artifacts_dir": "artifacts/phase5",
+  "reports_dir": "reports/phase5",
+  "seed": 42,
+  "overwrite_outputs": false,
+  "safety": {"latency_proxy_ms": 15000.0, "energy_fraction": 0.8, "drop_ratio": 0.01, "pdr": 0.99, "tolerance": 1e-8},
+  "surrogate": {"n_estimators": 200, "coverage": 0.95},
+  "bootstrap_resamples": 2000,
+  "generate_plots": true
+}

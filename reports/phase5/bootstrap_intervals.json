@@ -1,0 +1,79 @@
+{
+  "status": "descriptive; evaluation episodes may overlap",
+  "paired_differences": {
+    "validation": {
+      "cumulative_reward": {
+        "mean_difference": 0.0,
+        "interval_95": [
+          0.0,
+          0.0
+        ]
+      },
+      "latency_proxy_ms": {
+        "mean_difference": 0.0,
+        "interval_95": [
+          0.0,
+          0.0
+        ]
+      },
+      "energy_proxy": {
+        "mean_difference": 0.0,
+        "interval_95": [
+          0.0,
+          0.0
+        ]
+      },
+      "drop_ratio": {
+        "mean_difference": 0.0,
+        "interval_95": [
+          0.0,
+          0.0
+        ]
+      },
+      "pdr": {
+        "mean_difference": 0.0,
+        "interval_95": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "test": {
+      "cumulative_reward": {
+        "mean_difference": 0.04734605186768022,
+        "interval_95": [
+          0.005528988093307064,
+          0.11992220322981062
+        ]
+      },
+      "latency_proxy_ms": {
+        "mean_difference": -414.4125226235681,
+        "interval_95": [
+          -686.2196987368868,
+          -130.81121911630092
+        ]
+      },
+      "energy_proxy": {
+        "mean_difference": 0.04805409811941084,
+        "interval_95": [
+          0.01085930358090439,
+          0.08869285511518654
+        ]
+      },
+      "drop_ratio": {
+        "mean_difference": -0.006660662912840208,
+        "interval_95": [
+          -0.011774536808006622,
+          -0.0015467890176737924
+        ]
+      },
+      "pdr": {
+        "mean_difference": -0.005545285579939996,
+        "interval_95": [
+          -0.010415891855718689,
+          -0.0010899596811475565
+        ]
+      }
+    }
+  }
+}

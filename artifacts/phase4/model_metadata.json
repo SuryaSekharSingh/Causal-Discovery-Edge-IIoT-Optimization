@@ -1,0 +1,75 @@
+{
+  "phase": 4,
+  "algorithm": "DQN",
+  "observation": {
+    "shape": [
+      67
+    ],
+    "gnn_embedding": 64,
+    "normalized_server_queues": 3
+  },
+  "action_space": {
+    "type": "Discrete",
+    "size": 6,
+    "actions": [
+      {
+        "name": "route_server_a",
+        "fractions": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "name": "route_server_b",
+        "fractions": [
+          0.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "name": "route_server_c",
+        "fractions": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "name": "balanced",
+        "fractions": [
+          0.3333333333,
+          0.3333333333,
+          0.3333333334
+        ]
+      },
+      {
+        "name": "performance_weighted",
+        "fractions": [
+          0.6,
+          0.3,
+          0.1
+        ]
+      },
+      {
+        "name": "energy_weighted",
+        "fractions": [
+          0.1,
+          0.25,
+          0.65
+        ]
+      }
+    ]
+  },
+  "training_timesteps": 100000,
+  "best_validation_mean_reward": 19.907276035283488,
+  "phase3_encoder_sha256": "9ce8d714e5b7642d6fc3dc93d779f2f3fd1ac679aed9853fc24d5c288c5ebe81",
+  "gnn_frozen": true,
+  "test_set_usage": "loaded only after best validation checkpoint selection",
+  "metric_status": {
+    "latency_proxy_ms": "synthetic; not measured latency",
+    "energy_proxy": "synthetic; not measured energy consumption"
+  },
+  "phase5_transition_dataset": "C:\\Users\\surya\\Desktop\\Project Dump\\Causal-Discovery-Edge-IIoT-Optimization\\data\\interim\\phase4_action_outcomes.csv"
+}

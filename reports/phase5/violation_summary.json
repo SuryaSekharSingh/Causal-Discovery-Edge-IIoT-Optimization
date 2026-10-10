@@ -1,0 +1,38 @@
+{
+  "validation": {
+    "dqn": {
+      "feasible_fraction": 1.0,
+      "violations_on_feasible_states": 0,
+      "unavoidable_violations": 0
+    },
+    "screened_dqn": {
+      "feasible_fraction": 1.0,
+      "violations_on_feasible_states": 0,
+      "unavoidable_violations": 0,
+      "no_safe_action_mean": 0.0
+    },
+    "least_queue": {
+      "feasible_fraction": 0.9866369710467706,
+      "violations_on_feasible_states": 11,
+      "unavoidable_violations": 6
+    }
+  },
+  "test": {
+    "dqn": {
+      "feasible_fraction": 0.9338842975206612,
+      "violations_on_feasible_states": 5,
+      "unavoidable_violations": 32
+    },
+    "screened_dqn": {
+      "feasible_fraction": 0.9256198347107438,
+      "violations_on_feasible_states": 0,
+      "unavoidable_violations": 36,
+      "no_safe_action_mean": 0.0743801652892562
+    },
+    "least_queue": {
+      "feasible_fraction": 0.9173553719008265,
+      "violations_on_feasible_states": 6,
+      "unavoidable_violations": 40
+    }
+  }
+}
