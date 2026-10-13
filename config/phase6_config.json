@@ -1,0 +1,15 @@
+{
+  "phase4_config": "config/phase4_v3_config.json",
+  "phase5_config": "config/phase5_v3_config.json",
+  "artifacts_dir": "artifacts/phase6_v3",
+  "reports_dir": "reports/phase6_v3",
+  "training_seeds": [11, 23, 42, 67, 101],
+  "training_timesteps": 100000,
+  "max_training_workers": 4,
+  "bootstrap_resamples": 2000,
+  "shift_onset_step": 8,
+  "shift_duration_steps": 16,
+  "shift_multipliers": [1.5, 2.0],
+  "overwrite_outputs": false,
+  "generate_plots": true
+}

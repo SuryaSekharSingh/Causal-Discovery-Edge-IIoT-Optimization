@@ -49,6 +49,27 @@ python -m src.phase5_pipeline --config config/phase5_config.json --audit-only
 
 Artifacts go to `artifacts/phase5/`; evaluations, six-action explanations, and audits go to `reports/phase5/`. Outputs are protected from overwrite by default. Limits are latency proxy <=15,000 ms, energy proxy <=80% of calibrated maximum (currently 5.28), drop ratio <=1%, and PDR >=0.99. If no action meets them, the controller executes the minimum-violation profile and explicitly records infeasibility. Screening uses actual demand and queues in addition to the DQN embedding; it checks one-step simulator outcomes, with synthetic latency and energy, and does not establish real-network or long-term safety. Reports distinguish episode-average from step-weighted metrics and flag unsupported surrogate states or uninformative prediction bands.
 
+## Corrected decision timing and Phase 6
+
+The original Phase 4/5 outputs remain as legacy same-window results. The versioned runs below make a decision for window `t` using the completed graph embedding from `t-1`, three current queue ratios, and the packet batch announced at the start of `t`. This is a 68-value observation; the other variables derived from graph `t` are not available before routing. The batch announcement is an explicit simulator assumption.
+
+```powershell
+python -m src.phase4_pipeline --config config/phase4_v3_config.json --validate-only
+python -m src.phase4_pipeline --config config/phase4_v3_config.json --smoke-test
+python -m src.phase4_pipeline --config config/phase4_v3_config.json
+python -m src.phase5_pipeline --config config/phase5_v3_config.json --validate-only
+python -m src.phase5_pipeline --config config/phase5_v3_config.json --smoke-test
+python -m src.phase5_pipeline --config config/phase5_v3_config.json
+python -m src.phase6_pipeline --config config/phase6_config.json --validate-only
+python -m src.phase6_pipeline --config config/phase6_config.json --smoke-test
+python -m src.phase6_pipeline --config config/phase6_config.json
+python -m src.phase6_pipeline --config config/phase6_config.json --audit-only
+```
+
+Replay-corrected Phase 4/5 artifacts are stored under `artifacts/phase4_v3/` and `artifacts/phase5_v3/`, with corresponding reports and `data/interim/phase4_v3_action_outcomes.csv`. Timing-v2 truncations are treated as learning terminals, so DQN does not bootstrap from a placeholder observation after the last recorded window. Earlier `phase4_v2`/`phase5_v2` outputs and the interrupted `phase6` directory are retained but superseded; do not use them for final conclusions. Phase 6 consumes the frozen v3 artifacts, trains matched DQN ablations with previous-window causal variables or only demand and queues, and compares each representation with and without exact safety screening. It also evaluates synthetic announced-demand surges without changing historical graph embeddings. The final run writes `artifacts/phase6_v3/` and `reports/phase6_v3/` and refuses pre-existing outputs.
+
+All reported latency and energy values remain synthetic proxies. `pdr` is immediate service of current arrivals, not measured end-to-end delivery. The two original split boundaries still share partial 60-second graph windows; this was intentionally left unchanged and is recorded in the Phase 6 boundary audit. Phase 6 does not establish real-world deployment performance, topology-attack detection, or causal action effects from the Phase 2 observational DAG.
+
 ## Quick start
 
 ### Method 1: Standard project environment (original method)

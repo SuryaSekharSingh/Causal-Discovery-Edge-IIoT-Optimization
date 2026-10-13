@@ -40,6 +40,8 @@ class DecisionState:
     calibration_id: str
     causal_values: tuple[float, ...] = ()
     schema_version: int = SCHEMA_VERSION
+    observation_graph_file: str | None = None
+    observation_window_start: str | None = None
 
 
 @dataclass(frozen=True)
@@ -90,6 +92,7 @@ class SafetyDecision:
 class ActionAwareSCM:
     def __init__(self, calibration: dict, environment: dict):
         self.calibration = json.loads(json.dumps(calibration))
+        self.schema_version = 2 if "demand_log_scale" in calibration else 1
         self.environment = json.loads(json.dumps(environment))
         self.calibration_id = calibration_identity(self.calibration)
         self.actions = self.environment["actions"]
@@ -120,7 +123,7 @@ class ActionAwareSCM:
             context = np.asarray(state.causal_values,dtype=float)
         except (TypeError,ValueError) as error:
             raise ControllerError("invalid_state", "Non-numeric state values") from error
-        if state.schema_version != SCHEMA_VERSION or state.calibration_id != self.calibration_id:
+        if state.schema_version != self.schema_version or state.calibration_id != self.calibration_id:
             raise ControllerError("incompatible_state", "State schema/calibration mismatch")
         if q.shape != (3,) or not np.isfinite(q).all() or np.any(q < 0) or np.any(q > self.buffer):
             raise ControllerError("invalid_state", "Queues must be within buffers")
@@ -128,6 +131,12 @@ class ActionAwareSCM:
             raise ControllerError("invalid_state", "Demand must be finite and nonnegative")
         if state.split not in {"train", "validation", "test"} or not state.graph_file or not state.window_start:
             raise ControllerError("invalid_state", "Missing state identity")
+        if self.schema_version == 2:
+            if not state.observation_graph_file or not state.observation_window_start:
+                raise ControllerError("invalid_state", "Missing previous completed graph identity")
+            from datetime import datetime, timedelta
+            if datetime.fromisoformat(state.window_start) - datetime.fromisoformat(state.observation_window_start) != timedelta(seconds=self.window):
+                raise ControllerError("invalid_state", "Observation graph must precede demand by one window")
         if not np.isfinite(context).all():
             raise ControllerError("invalid_state", "Non-finite causal context")
 
@@ -170,14 +179,14 @@ class ActionAwareSCM:
         return tuple(self.intervene(state, a) for a in range(6))
 
     def specification(self):
-        return {"schema_version":SCHEMA_VERSION, "mechanism_version":"phase4_equations_v1",
+        return {"schema_version":self.schema_version, "mechanism_version":"phase4_equations_v1",
                 "calibration":self.calibration, "environment":self.environment,
                 "calibration_id":self.calibration_id, "units":{"latency_proxy_ms":"ms", "energy_proxy":"synthetic units"}}
 
 
 def load_phase5_scm(artifact_dir):
     spec = json.loads((Path(artifact_dir)/"exact_scm.json").read_text())
-    if spec["schema_version"] != SCHEMA_VERSION or spec["mechanism_version"] != "phase4_equations_v1":
+    if spec["schema_version"] not in (1, 2) or spec["mechanism_version"] != "phase4_equations_v1":
         raise ControllerError("incompatible_model", "Unsupported SCM version")
     model = ActionAwareSCM(spec["calibration"], spec["environment"])
     if model.calibration_id != spec["calibration_id"]:
@@ -211,7 +220,7 @@ class CounterfactualController:
             q_values = np.asarray(q_values, dtype=float)
         except (TypeError,ValueError) as error:
             raise ControllerError("invalid_observation", "Non-numeric observation or Q-values") from error
-        if observation.shape!=(67,) or not np.isfinite(observation).all() or q_values.shape!=(6,) or not np.isfinite(q_values).all():
+        if observation.shape!=((68,) if self.scm.schema_version == 2 else (67,)) or not np.isfinite(observation).all() or q_values.shape!=(6,) or not np.isfinite(q_values).all():
             raise ControllerError("invalid_observation", "Expected finite observation and six Q-values")
         ranking = tuple(sorted(range(6), key=lambda a:(-q_values[a],a)))
         start = time.perf_counter()
@@ -225,7 +234,7 @@ class CounterfactualController:
                               tuple(x[0] for x in assessments), tuple(x[1] for x in assessments), bool(safe), status, elapsed)
 
     def step(self, env, agent):
-        if env.episode_steps >= env.episode_horizon or not env.valid_transition[env.current_index]:
+        if env.done or env.episode_steps >= env.episode_horizon or not env.valid_decision[env.current_index]:
             raise ControllerError("episode_finished", "Reset before another transition")
         if calibration_identity(env.calibration.to_dict())!=self.scm.calibration_id or env.config["environment"]!=self.scm.environment:
             raise ControllerError("incompatible_environment", "Environment differs from SCM")
@@ -233,8 +242,11 @@ class CounterfactualController:
         if not env.observation_space.contains(observation):
             raise ControllerError("invalid_observation", "Observation outside environment space")
         row = env.current_row
-        state = DecisionState(float(row["total_packets"]), tuple(env.queues), env.data.split,
-                              str(row["graph_file"]), row["window_start"].isoformat(), self.scm.calibration_id)
+        state = DecisionState(env.announced_demand, tuple(env.queues), env.data.split,
+                              str(row["graph_file"]), row["window_start"].isoformat(), self.scm.calibration_id,
+                              schema_version=self.scm.schema_version,
+                              observation_graph_file=str(env.observation_row["graph_file"]) if env.timing_v2 else None,
+                              observation_window_start=env.observation_row["window_start"].isoformat() if env.timing_v2 else None)
         agent.policy.set_training_mode(False)
         with torch.no_grad():
             tensor, _ = agent.policy.obs_to_tensor(observation)

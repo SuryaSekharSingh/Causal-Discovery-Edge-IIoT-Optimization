@@ -26,9 +26,12 @@ class EnvironmentCalibration:
     pdr_completion_threshold: float
     window_seconds: float
     fitted_on_split: str = "train"
+    demand_log_scale: float | None = None
 
     def to_dict(self) -> dict[str, Any]:
         payload = asdict(self)
+        if self.demand_log_scale is None:
+            payload.pop("demand_log_scale")
         for key in (
             "service_capacity", "buffer_capacity", "base_latency_ms",
             "idle_energy", "dynamic_energy",
@@ -193,6 +196,7 @@ def calibrate_environment(train_data: Phase4SplitData, config: dict[str, Any]) -
         latency_budget_ms=float(env_config["latency_budget_ms"]),
         pdr_completion_threshold=float(env_config["pdr_completion_threshold"]),
         window_seconds=float(config["window_seconds"]),
+        demand_log_scale=(float(np.log1p(np.quantile(demand, 0.99))) if config.get("timing_schema_version") == 2 else None),
     )
     for name in ("base_latency_ms", "idle_energy", "dynamic_energy"):
         values = getattr(calibration, name)
@@ -217,6 +221,7 @@ class EdgeIIoTRoutingEnv(gym.Env):
         self.data = split_data
         self.calibration = calibration
         self.config = config
+        self.timing_v2 = config.get("timing_schema_version") == 2
         env_config = config["environment"]
         self.embedding_clip = float(env_config["embedding_clip"])
         self.episode_horizon = int(env_config["episode_horizon"])
@@ -231,12 +236,13 @@ class EdgeIIoTRoutingEnv(gym.Env):
         if set(self.reward_weights) != {"throughput", "pdr", "completion", "latency", "energy", "drops"}:
             raise ValueError("reward_weights must define throughput, pdr, completion, latency, energy, and drops.")
         self.action_space = spaces.Discrete(6)
-        low = np.concatenate([np.full(64, -self.embedding_clip), np.zeros(3)]).astype(np.float32)
-        high = np.concatenate([np.full(64, self.embedding_clip), np.ones(3)]).astype(np.float32)
+        low = np.concatenate([np.full(64, -self.embedding_clip), np.zeros(4 if self.timing_v2 else 3)]).astype(np.float32)
+        high = np.concatenate([np.full(64, self.embedding_clip), np.array([10.0, 1.0, 1.0, 1.0]) if self.timing_v2 else np.ones(3)]).astype(np.float32)
         self.observation_space = spaces.Box(low=low, high=high, dtype=np.float32)
         gaps = self.data.frame["window_start"].shift(-1) - self.data.frame["window_start"]
         self.valid_transition = gaps.eq(pd.Timedelta(seconds=self.calibration.window_seconds)).to_numpy(dtype=bool)
-        self.valid_starts = np.flatnonzero(self.valid_transition).astype(int).tolist()
+        self.valid_decision = np.r_[False, self.valid_transition[:-1]] if self.timing_v2 else self.valid_transition.copy()
+        self.valid_starts = np.flatnonzero(self.valid_decision).astype(int).tolist()
         if not self.valid_starts:
             raise ValueError(f"Split {self.data.split} has no contiguous Phase 4 transitions.")
         if fixed_starts is not None:
@@ -248,18 +254,36 @@ class EdgeIIoTRoutingEnv(gym.Env):
         self.current_index = self.valid_starts[0]
         self.queues = np.zeros(3, dtype=np.float64)
         self.episode_steps = 0
+        self.done = False
+        self.demand_multiplier = np.ones(self.data.size, dtype=np.float64)
 
     @property
     def current_row(self) -> pd.Series:
         return self.data.frame.iloc[self.current_index]
 
+    @property
+    def observation_row(self) -> pd.Series:
+        return self.data.frame.iloc[self.current_index - 1 if self.timing_v2 else self.current_index]
+
+    @property
+    def announced_demand(self) -> float:
+        return float(self.current_row["total_packets"]) * float(self.demand_multiplier[self.current_index])
+
     def _observation(self) -> np.ndarray:
-        embedding = np.clip(self.data.embeddings[self.current_index], -self.embedding_clip, self.embedding_clip)
+        embedding_index = self.current_index - 1 if self.timing_v2 else self.current_index
+        embedding = np.clip(self.data.embeddings[embedding_index], -self.embedding_clip, self.embedding_clip)
         queue_ratio = np.divide(
             self.queues, self.calibration.buffer_capacity,
             out=np.zeros(3, dtype=np.float64), where=self.calibration.buffer_capacity > 0,
         )
-        observation = np.concatenate([embedding, np.clip(queue_ratio, 0.0, 1.0)]).astype(np.float32)
+        pieces = [embedding]
+        if self.timing_v2:
+            scale = self.calibration.demand_log_scale
+            if scale is None or scale <= 0:
+                raise ValueError("Timing-v2 requires a positive training-fitted demand scale.")
+            pieces.append(np.array([np.clip(np.log1p(self.announced_demand) / scale, 0, 10)]))
+        pieces.append(np.clip(queue_ratio, 0.0, 1.0))
+        observation = np.concatenate(pieces).astype(np.float32)
         if not self.observation_space.contains(observation):
             raise RuntimeError("Generated observation is outside the declared observation space.")
         return observation
@@ -286,19 +310,25 @@ class EdgeIIoTRoutingEnv(gym.Env):
         self.current_index = start
         self.queues = initial_queues.copy()
         self.episode_steps = 0
+        self.done = False
         return self._observation(), {
             "split": self.data.split,
             "graph_file": str(self.current_row["graph_file"]),
             "window_start": self.current_row["window_start"].isoformat(),
+            "observation_graph_file": str(self.observation_row["graph_file"]),
+            "observation_window_start": self.observation_row["window_start"].isoformat(),
+            "announced_demand_packets": self.announced_demand,
             "start_index": start,
         }
 
     def simulate_action(self, action: int) -> RoutingOutcome:
+        if self.done:
+            raise RuntimeError("Reset the environment after episode truncation.")
         if not self.action_space.contains(action):
             raise ValueError(f"Invalid routing action: {action}")
         calibration = self.calibration
         fractions = self.action_fractions[int(action)]
-        demand = max(float(self.current_row["total_packets"]), 0.0)
+        demand = max(self.announced_demand, 0.0)
         pre_queue = self.queues.astype(np.float64, copy=True)
         served_old = np.minimum(pre_queue, calibration.service_capacity)
         residual_queue = pre_queue - served_old
@@ -370,9 +400,43 @@ class EdgeIIoTRoutingEnv(gym.Env):
         )
 
     def step(self, action: int):
+        if self.done:
+            raise RuntimeError("Reset the environment after episode truncation.")
         source_index = self.current_index
         source_row = self.current_row
+        observation_row = self.observation_row
         outcome = self.simulate_action(int(action))
+        if self.timing_v2:
+            self.queues = outcome.post_queue.copy()
+            self.episode_steps += 1
+            horizon_reached = self.episode_steps >= self.episode_horizon
+            successor = source_index + 1 if source_index + 1 < self.data.size and self.valid_decision[source_index + 1] else None
+            segment_ended = successor is None
+            truncated = bool(horizon_reached or segment_ended)
+            self.done = truncated
+            if not truncated:
+                self.current_index = successor
+                observation = self._observation()
+            else:
+                observation = np.zeros(self.observation_space.shape, dtype=np.float32)
+                observation[-3:] = np.clip(self.queues / self.calibration.buffer_capacity, 0, 1)
+            info = outcome.info()
+            info.update({
+                "split": self.data.split,
+                "graph_file": str(source_row["graph_file"]),
+                "window_start": source_row["window_start"].isoformat(),
+                "observation_graph_file": str(observation_row["graph_file"]),
+                "observation_window_start": observation_row["window_start"].isoformat(),
+                "next_graph_file": str(self.data.frame.iloc[successor]["graph_file"]) if successor is not None else None,
+                "next_window_start": self.data.frame.iloc[successor]["window_start"].isoformat() if successor is not None else None,
+                "source_index": source_index,
+                "next_index": successor,
+                "episode_step": self.episode_steps,
+                "horizon_reached": horizon_reached,
+                "segment_ended": segment_ended,
+                "terminal_observation": truncated,
+            })
+            return observation, outcome.reward, False, truncated, info
         self.queues = outcome.post_queue.copy()
         self.episode_steps += 1
         if not self.valid_transition[source_index]:

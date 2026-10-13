@@ -40,6 +40,9 @@ def build_dqn(
         train_freq=int(dqn["train_freq"]),
         gradient_steps=int(dqn["gradient_steps"]),
         target_update_interval=int(dqn["target_update_interval"]),
+        # Timing-v2 truncations can mark the end of recorded data, where no
+        # successor state exists. Do not bootstrap from the terminal placeholder.
+        replay_buffer_kwargs={"handle_timeout_termination": False} if config.get("timing_schema_version") == 2 else None,
         exploration_fraction=float(dqn["exploration_fraction"]),
         exploration_final_eps=float(dqn["exploration_final_eps"]),
         policy_kwargs={"net_arch": [int(width) for width in dqn["net_arch"]]},

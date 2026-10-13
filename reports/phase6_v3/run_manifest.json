@@ -1,0 +1,244 @@
+{
+  "config": {
+    "phase4_config": "config/phase4_v3_config.json",
+    "phase5_config": "config/phase5_v3_config.json",
+    "artifacts_dir": "artifacts/phase6_v3",
+    "reports_dir": "reports/phase6_v3",
+    "training_seeds": [
+      11,
+      23,
+      42,
+      67,
+      101
+    ],
+    "training_timesteps": 100000,
+    "max_training_workers": 4,
+    "bootstrap_resamples": 2000,
+    "shift_onset_step": 8,
+    "shift_duration_steps": 16,
+    "shift_multipliers": [
+      1.5,
+      2.0
+    ],
+    "overwrite_outputs": false,
+    "generate_plots": true
+  },
+  "timing_schema_version": 2,
+  "phase4_config": {
+    "causal_dataset_csv": "data/interim/causal_dataset.csv",
+    "phase3_artifacts_dir": "artifacts/phase3",
+    "phase4_artifacts_dir": "artifacts/phase4_v3",
+    "phase4_reports_dir": "reports/phase4_v3",
+    "transition_dataset_csv": "data/interim/phase4_v3_action_outcomes.csv",
+    "timing_schema_version": 2,
+    "random_seed": 42,
+    "window_seconds": 60,
+    "environment": {
+      "embedding_clip": 10.0,
+      "episode_horizon": 64,
+      "capacity_quantiles": [
+        0.95,
+        0.9,
+        0.75
+      ],
+      "buffer_capacity_multiplier": 2.0,
+      "base_latency_ms": [
+        5.0,
+        10.0,
+        20.0
+      ],
+      "idle_energy": [
+        1.0,
+        0.65,
+        0.35
+      ],
+      "dynamic_energy": [
+        2.5,
+        1.4,
+        0.7
+      ],
+      "latency_budget_ms": 15000.0,
+      "pdr_completion_threshold": 0.99,
+      "reward_weights": {
+        "throughput": 0.3,
+        "pdr": 0.25,
+        "completion": 0.15,
+        "latency": -0.15,
+        "energy": -0.1,
+        "drops": -0.05
+      },
+      "actions": [
+        {
+          "name": "route_server_a",
+          "fractions": [
+            1.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "name": "route_server_b",
+          "fractions": [
+            0.0,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "name": "route_server_c",
+          "fractions": [
+            0.0,
+            0.0,
+            1.0
+          ]
+        },
+        {
+          "name": "balanced",
+          "fractions": [
+            0.3333333333,
+            0.3333333333,
+            0.3333333334
+          ]
+        },
+        {
+          "name": "performance_weighted",
+          "fractions": [
+            0.6,
+            0.3,
+            0.1
+          ]
+        },
+        {
+          "name": "energy_weighted",
+          "fractions": [
+            0.1,
+            0.25,
+            0.65
+          ]
+        }
+      ]
+    },
+    "dqn": {
+      "device": "cpu",
+      "total_timesteps": 100000,
+      "learning_rate": 0.0001,
+      "buffer_size": 50000,
+      "learning_starts": 2000,
+      "batch_size": 128,
+      "gamma": 0.99,
+      "train_freq": 4,
+      "gradient_steps": 1,
+      "target_update_interval": 1000,
+      "exploration_fraction": 0.3,
+      "exploration_final_eps": 0.05,
+      "net_arch": [
+        256,
+        128
+      ],
+      "evaluation_frequency": 5000,
+      "evaluation_start_count": 10
+    },
+    "transition_generation": {
+      "episodes": {
+        "train": 100,
+        "validation": 20,
+        "test": 20
+      },
+      "episode_horizon": 64
+    },
+    "reports": {
+      "generate_plots": true
+    },
+    "overwrite_outputs": false
+  },
+  "smoke_test": false,
+  "torch_cpu_threads": 10,
+  "inputs": {
+    "config\\phase4_v3_config.json": "4097a1cc57b781a90bb9d3e78a7b3f931c2f9cc20f41684224591d5291144351",
+    "config\\phase5_v3_config.json": "6608d02bc3954015ec0e79bc28cbbc089b7a89032a4908d22396816665ec37d4",
+    "config\\phase6_config.json": "3c2dba8495391fd2a627b662ae24546452cc014344f8189c7f276ff1b727d9e0",
+    "src\\rl_environment.py": "c594053481c45eb7f2b2452dd204132f6a1eecfdd2d59643e6a5f87fe8795729",
+    "src\\counterfactual_controller.py": "1ebbb745c16da4d631d8895f5cbf1e47a0fb3fc6719f2f31422df80907866582",
+    "artifacts\\phase4_v3\\best_model.zip": "2ee40a44c79d0da9a185bb5e0815f1769e41dc7e061b02bb6e90571047f2e5a8",
+    "reports\\phase4_v3\\run_manifest.json": "ff239ea266649c65893ca5a2d118d29e71c919d30c119dcf941a2ae32de51fd9",
+    "artifacts\\phase5_v3\\exact_scm.json": "2c60b2b46eb9cf3fd1a48e1de3b442a8dba971f614eeeb65f880ebd8a8967a6a",
+    "reports\\phase5_v3\\run_manifest.json": "04e66d541d72ed59ee2bb78bf0cf6d883fc951459b20454e302000f3ae14be80",
+    "data\\interim\\causal_dataset.csv": "a7e536d02f3e1f2607d876298e289a43d14efc6e48a9ae5aade0a0af2c575e8f",
+    "artifacts\\phase3\\embeddings\\train.pt": "68e47f17a1ecba62ef1023c3287deb10f124faf83458550d492fc5ccb9c6968a",
+    "artifacts\\phase3\\embeddings\\validation.pt": "388eb78b7854abe432c2488fdece9439af6e98f61fda84b001a29b3346e7e548",
+    "artifacts\\phase3\\embeddings\\test.pt": "1a2730b16ab0c58bce38251666b51110501a02fdb3ee766ab77a6c687a382011"
+  },
+  "outputs": {
+    "artifacts\\phase6_v3\\causal_101.zip": "a5a31ea8f27f3e1322186f616b3cfc700f6c69a0f8023d7582c6cf3a3c5182ef",
+    "artifacts\\phase6_v3\\causal_11.zip": "bbb5eceb101e7bab903a7e7dedddb27bfa7b15662a096d550c00f108ba152660",
+    "artifacts\\phase6_v3\\causal_23.zip": "8dc4df7e0831bf4faeea3ec0c34bf3b98e7dc8446e0109bc911d06975a8e8b3e",
+    "artifacts\\phase6_v3\\causal_42.zip": "b26b589eca1368e8014c5d145cd6f75e2d42d1a0dd7d3f1fb1cf61c2fdc2a4b7",
+    "artifacts\\phase6_v3\\causal_67.zip": "7eefff461222d164cec0b562f7e6a535408d34b349eb867f772a61e1d2b8743a",
+    "artifacts\\phase6_v3\\causal_normalization.json": "a50866368750be9f5c5eec8e3a745dc5b1ade8a86496928323553ecd4c435159",
+    "artifacts\\phase6_v3\\gnn_101.zip": "9da415a7b50be7ef1c6ac46a78a5f1e4b29afdc56f2d8f30f841cbe5d541be78",
+    "artifacts\\phase6_v3\\gnn_11.zip": "8ebd22b4523c20ac7de69e78029a73a6a36dde77b54f1884e572847772a11b1d",
+    "artifacts\\phase6_v3\\gnn_23.zip": "cbc4d98b6a363b3e7532bd2b2fd6f1680351e81531b05c53e9455dc307d1ec2e",
+    "artifacts\\phase6_v3\\gnn_67.zip": "8006d9a99ecc5f35c795db9623baaae361e4a219465cba0b5628fb5e16ede8fb",
+    "artifacts\\phase6_v3\\minimal_101.zip": "9487f578b5839f48711d949ca35a99fd300c28f13ae9bc086623e8d94cee297e",
+    "artifacts\\phase6_v3\\minimal_11.zip": "cc09e6702d54df3f82fcde8eddf4abacdaafd0309918d7c540cd676b25e9861d",
+    "artifacts\\phase6_v3\\minimal_23.zip": "c5d28a2620b5057d3f6c853d9c37c422d6010c94465eb50abe3530fb9ca84f03",
+    "artifacts\\phase6_v3\\minimal_42.zip": "22656374a6d787581fe054ad9f41ca0d45d3667af8e9c979900ac8118e18ded2",
+    "artifacts\\phase6_v3\\minimal_67.zip": "af9e7005f3743076180bb508b07a10ebd802ef7219ec659f32c647012ffd4b57",
+    "reports\\phase6_v3\\action_distribution.csv": "936465acb816cef59838cce6bc2e8a758cb582e4ada589f5c03e80b77aeb990f",
+    "reports\\phase6_v3\\boundary_audit.json": "4fc283ef354fdc50c487ce32087e08bf0b6e77009484b8421f54993b316386c9",
+    "reports\\phase6_v3\\causal_101.monitor.csv": "6d9d170819041200848fd1ffbbbb3b2716ac74aea68a086b10aafd4387fb7c8c",
+    "reports\\phase6_v3\\causal_101_validation.csv": "efc0e3786c5eb1e1f484abf7dbf40c256e65962331073108b0fd93cfd06d5b79",
+    "reports\\phase6_v3\\causal_11.monitor.csv": "cf8a46a013e0d1debf00f3fd39870a7f15c338b6db7a14f9d7fd1609f5786b28",
+    "reports\\phase6_v3\\causal_11_validation.csv": "e6b183da03e6f5c98d13786282332ffda297b1897091cb58a39a819f2fe5e714",
+    "reports\\phase6_v3\\causal_23.monitor.csv": "91f6d69d597feeee5536d0e3ab97e27a32500731f1b26b6dd93861cce51c5b6a",
+    "reports\\phase6_v3\\causal_23_validation.csv": "76a30e54ef509e55ceb037d939e956f7a2cefd2e835e863c896f2431b767b41e",
+    "reports\\phase6_v3\\causal_42.monitor.csv": "8d5c3703f4eca9545d362b78f29dfa32e5beb28bc3f1672be98170cbd371435b",
+    "reports\\phase6_v3\\causal_42_validation.csv": "400660a742a1b27b0a0ca5a48fd3b483833fb3a3d5b0be5770fe6348397cd06a",
+    "reports\\phase6_v3\\causal_67.monitor.csv": "09f728abde4ca8bbda669fb88412b342cef0621ba6d8ce7844072ad0a60b4d6e",
+    "reports\\phase6_v3\\causal_67_validation.csv": "2198a850002e0c0847815b31b37cd71c2ad415390f21af12db0a9815e5bbdcc6",
+    "reports\\phase6_v3\\evaluation_episodes.csv": "d79353f9619e597880fed084c141f4781947cba28ea593897146f3a17d3833f1",
+    "reports\\phase6_v3\\evaluation_steps.csv": "e0e7d2e0c89b153af5111d508ded17387240c74334f7b2ca51636de9b3e3b2ec",
+    "reports\\phase6_v3\\explanations.jsonl": "fe63b75c183de25af7f2419a3bf8f3d260436b43c36750dbdcbda47931639434",
+    "reports\\phase6_v3\\gnn_101.monitor.csv": "d18a28ff078afec0538a0212c1bf6bf7a7aeed25f09bd6160b5c540f00ae6e46",
+    "reports\\phase6_v3\\gnn_101_validation.csv": "44d2afcf1091132dfab8cef466792d57471c708752aba91397c7cbef1ae14318",
+    "reports\\phase6_v3\\gnn_11.monitor.csv": "03995d727a1a245e107ea451a98fca544beeefedc2017617ad0956a6a055656a",
+    "reports\\phase6_v3\\gnn_11_validation.csv": "43b58c2e5d43d1bf98ee39397b9533fb80cabdf809dcac6e486bdcff62aaec00",
+    "reports\\phase6_v3\\gnn_23.monitor.csv": "a9b28bceedc4b5f9d77bf8e09ec2b01497000e8f2f54ff7c8642289465ac3d1e",
+    "reports\\phase6_v3\\gnn_23_validation.csv": "8fe6f0c43333eb0c3e0b9d7d4e0ee01a8472f53470e3b0b150e81ecb55447750",
+    "reports\\phase6_v3\\gnn_67.monitor.csv": "227cafeb0176c99eddbbf8526cb1ead785191e2767b76277e0c490795fcc9f57",
+    "reports\\phase6_v3\\gnn_67_validation.csv": "2163b4704b7cee7ff5fa4ba359f884dade8537bcb51810fca8095be30809c5fc",
+    "reports\\phase6_v3\\minimal_101.monitor.csv": "7b8690253e6bc90eed75faac802f50cdcfb789f035f875a00f8efdfe0509f4d3",
+    "reports\\phase6_v3\\minimal_101_validation.csv": "63621cbc7cefe38fbc9fe28bc869992faee4194fa7b94830c929539b0218357d",
+    "reports\\phase6_v3\\minimal_11.monitor.csv": "d0837ae30d37ffeb590251a1ee647f5b1af3d23a363595d9d72faed279f2b4d3",
+    "reports\\phase6_v3\\minimal_11_validation.csv": "988d1a85e77abea48748d7f0f462c753f28728d34a1fdffbffd242b5e4f7b78a",
+    "reports\\phase6_v3\\minimal_23.monitor.csv": "fa54a964ccbf4fe4da188e8855f63f017e80d48969229335d2bb8c5918614e55",
+    "reports\\phase6_v3\\minimal_23_validation.csv": "9ff81fb1646e63dfc9bb96f79889c8bff6e15b36556d069a7eb7bfda27a67536",
+    "reports\\phase6_v3\\minimal_42.monitor.csv": "7921cb1e965b7d364b4fb03dffee2f384ccca347d6eed0977c6e4889dd4eb2a8",
+    "reports\\phase6_v3\\minimal_42_validation.csv": "c102db4f61dc6bacc24ef2c784824c496ebdb5204bfca043fbcefee53ef3bb96",
+    "reports\\phase6_v3\\minimal_67.monitor.csv": "23e23b205ca2a501a0c007280f424f3e7d8f3f72260d2945baab56d5edf50cba",
+    "reports\\phase6_v3\\minimal_67_validation.csv": "24fe5b57f57901a90d0a29ca279ec2ff747d86a65e8f8cbca2bcdf8dbe263af6",
+    "reports\\phase6_v3\\paired_intervals.json": "ca1ba6bcad55c1a3b5e2733b8cff6c68678f1995567a4fd1ee181ba5cb2e13a0",
+    "reports\\phase6_v3\\plot_status.json": "970525c4cace11ded35ca39337e09644e601b6fa303e0bb0f26e0edeb53a230e",
+    "reports\\phase6_v3\\policy_comparison.png": "1d4b6674500f81a91581df0e9d478a34c2f7e2ede5a4e8fdcd9e756ac53d8ee6",
+    "reports\\phase6_v3\\policy_metrics.json": "21bbe1c6d5f005ea2a25533e143ec54c2c51cf4be2e428bb886741f634c63876",
+    "reports\\phase6_v3\\review_report.md": "a85492c7c1c3d40f94352e37de6f983d46cf5c8241e24f00aff45c3abb3a4506",
+    "reports\\phase6_v3\\shift_summary.csv": "3b82c801861600fafface3090c8080709967f05f2154438109aeaa8dc638bae7",
+    "reports\\phase6_v3\\shift_trajectories.csv": "735ecc6a7f8f02ad91e1b770c7c1dd6bcb454b1371a3072d23212e5ec7b5a518",
+    "reports\\phase6_v3\\tensorboard\\causal_101_1\\events.out.tfevents.1791666212.SuryaPC.40440.2": "8660ac340252e775a8ad36a3ab2d07325268c25a0537718341d7245a5a18d3e5",
+    "reports\\phase6_v3\\tensorboard\\causal_11_1\\events.out.tfevents.1791665853.SuryaPC.40440.1": "4dec5184a3086c879b5fe4cc6d301752baf47517dfeefdb0d41505ed3581b2a7",
+    "reports\\phase6_v3\\tensorboard\\causal_23_1\\events.out.tfevents.1791665854.SuryaPC.6832.1": "b1132d46d4dc83fcb3f33eac34057bec62525d70e9314ba615e7eba438e61fc5",
+    "reports\\phase6_v3\\tensorboard\\causal_42_1\\events.out.tfevents.1791665855.SuryaPC.41396.1": "57e8d7e7154f55ca92355b327a4e9a1150c28544ea2031348a94bf146813a91e",
+    "reports\\phase6_v3\\tensorboard\\causal_67_1\\events.out.tfevents.1791665857.SuryaPC.10696.1": "c01df8dd55850527bced099adfb3e87c70a21dc840655ca52e8fb5d970c01e34",
+    "reports\\phase6_v3\\tensorboard\\gnn_101_1\\events.out.tfevents.1791665589.SuryaPC.40440.0": "7c395df74d20f75c167cfcdffa3de89cdc84371a5f1686b675a38612ce387a03",
+    "reports\\phase6_v3\\tensorboard\\gnn_11_1\\events.out.tfevents.1791665589.SuryaPC.6832.0": "46db6337cc73a813854de10a09a4e12808a9b9743d960312f4ec57c436a3f631",
+    "reports\\phase6_v3\\tensorboard\\gnn_23_1\\events.out.tfevents.1791665589.SuryaPC.41396.0": "9b412dce0113921b66cf2c5b2f60660282c688affdc6ab519fd6207a0d8f08cd",
+    "reports\\phase6_v3\\tensorboard\\gnn_67_1\\events.out.tfevents.1791665589.SuryaPC.10696.0": "90abb955c4342694bdac05b633aa0b8757e2f486e5eb108070aa8eb282e88e74",
+    "reports\\phase6_v3\\tensorboard\\minimal_101_1\\events.out.tfevents.1791666500.SuryaPC.10696.3": "64ee1560cd2d0a0d99d05017b3f3cea52785e0fcc23cfdb668ce11bbbfd718b3",
+    "reports\\phase6_v3\\tensorboard\\minimal_11_1\\events.out.tfevents.1791666214.SuryaPC.6832.2": "0f96a68d6d0e43e607f37b4685b0465b86e2e0d453f9db24e22bf4ac2460a302",
+    "reports\\phase6_v3\\tensorboard\\minimal_23_1\\events.out.tfevents.1791666217.SuryaPC.41396.2": "8d54108efc72c39450ff402ee3ad84ffae08f9082e0ae7c858b839a7ed204cbe",
+    "reports\\phase6_v3\\tensorboard\\minimal_42_1\\events.out.tfevents.1791666218.SuryaPC.10696.2": "86509c7d6cf5c2506e074120d8563a1e3429e810365bf3e150326d7f65abc5a8",
+    "reports\\phase6_v3\\tensorboard\\minimal_67_1\\events.out.tfevents.1791666496.SuryaPC.6832.3": "8c930068839724bbf475a4a1c42660fafc267877ead75e7d8b67b482ab312bf4"
+  },
+  "test_usage": "after all validation checkpoint selections",
+  "uncertainty": "descriptive paired episode bootstrap; common traffic stream"
+}

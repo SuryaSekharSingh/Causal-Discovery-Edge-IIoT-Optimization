@@ -153,7 +153,8 @@ def _transition_row(
 ) -> dict[str, Any]:
     row = env.current_row
     source_index = env.current_index
-    would_truncate = bool(step + 1 >= horizon or not env.valid_transition[source_index + 1])
+    successor = source_index + 1 if source_index + 1 < env.data.size and env.valid_decision[source_index + 1] else None
+    would_truncate = bool(step + 1 >= horizon or successor is None)
     result: dict[str, Any] = {
         "state_id": f"{env.data.split}_{episode:04d}_{step:03d}",
         "split": env.data.split,
@@ -161,7 +162,11 @@ def _transition_row(
         "step": step,
         "graph_file": str(row["graph_file"]),
         "window_start": row["window_start"].isoformat(),
-        "next_graph_file": str(env.data.frame.iloc[source_index + 1]["graph_file"]),
+        "observation_graph_file": str(env.observation_row["graph_file"]),
+        "observation_window_start": env.observation_row["window_start"].isoformat(),
+        "demand_graph_file": str(row["graph_file"]),
+        "demand_window_start": row["window_start"].isoformat(),
+        "next_graph_file": str(env.data.frame.iloc[successor]["graph_file"]) if successor is not None else None,
         "action": action,
         "action_name": outcome.action_name,
         "allocation_server_a": float(outcome.allocation_fractions[0]),
@@ -345,7 +350,8 @@ def _validate_inputs(root: Path, config: dict[str, Any]) -> tuple[dict[str, Phas
     for split in SPLITS:
         env = _make_env(data[split], calibration, config)
         observation, _ = env.reset(seed=int(config["random_seed"]))
-        if observation.shape != (67,) or not env.observation_space.contains(observation):
+        expected_shape = (68,) if config.get("timing_schema_version") == 2 else (67,)
+        if observation.shape != expected_shape or not env.observation_space.contains(observation):
             raise RuntimeError(f"Invalid initial observation for {split}.")
     check_env(_make_env(data["train"], calibration, config), warn=True)
     return data, calibration
@@ -496,7 +502,10 @@ def run(config_path: Path, validate_only: bool = False, smoke_test: bool = False
     model_metadata = {
         "phase": 4,
         "algorithm": "DQN",
-        "observation": {"shape": [67], "gnn_embedding": 64, "normalized_server_queues": 3},
+        "timing_schema_version": config.get("timing_schema_version", 1),
+        "observation": {"shape": [68 if config.get("timing_schema_version") == 2 else 67], "gnn_embedding": 64,
+                        "announced_demand": config.get("timing_schema_version") == 2, "normalized_server_queues": 3},
+        "decision_timing": "previous completed graph plus announced current packet batch" if config.get("timing_schema_version") == 2 else "legacy same-window graph",
         "action_space": {"type": "Discrete", "size": 6, "actions": config["environment"]["actions"]},
         "training_timesteps": int(config["dqn"]["total_timesteps"]),
         "best_validation_mean_reward": callback.best_mean_reward,

@@ -1,0 +1,7 @@
+{
+  "latency_proxy_ms": 15000.0,
+  "energy_fraction": 0.8,
+  "drop_ratio": 0.01,
+  "pdr": 0.99,
+  "tolerance": 1e-08
+}

@@ -39,7 +39,8 @@ def write_json(path,payload):
 def inputs(root,config):
     reports=root/config["phase4_reports_dir"]; artifacts=root/config["phase4_artifacts_dir"]
     manifest=read_json(reports/"run_manifest.json"); saved=manifest["config"]
-    current=read_json(root/"config/phase4_config.json")
+    phase4_config_path=root/config.get("phase4_config", "config/phase4_config.json")
+    current=read_json(phase4_config_path)
     if current!=saved:
         raise ValueError("Current Phase 4 configuration differs from authoritative saved configuration")
     paths={"causal_dataset_sha256":root/saved["causal_dataset_csv"],
@@ -55,7 +56,8 @@ def inputs(root,config):
     if read_json(artifacts/"environment_calibration.json")!=calibration.to_dict():
         raise ValueError("Saved calibration does not reproduce from training data")
     metadata=read_json(artifacts/"model_metadata.json")
-    if metadata["observation"]["shape"]!=[67] or metadata["action_space"]["actions"]!=saved["environment"]["actions"] or not metadata["gnn_frozen"] or metadata["phase3_encoder_sha256"]!=data["train"].encoder_sha256:
+    timing_v2=saved.get("timing_schema_version")==2
+    if metadata["observation"]["shape"]!=([68] if timing_v2 else [67]) or metadata.get("timing_schema_version",1)!=(2 if timing_v2 else 1) or metadata["action_space"]["actions"]!=saved["environment"]["actions"] or not metadata["gnn_frozen"] or metadata["phase3_encoder_sha256"]!=data["train"].encoder_sha256:
         raise ValueError("Incompatible Phase 4 metadata")
     scm=ActionAwareSCM(calibration.to_dict(),saved["environment"])
     controller=CounterfactualController(scm,config["safety"])
@@ -68,9 +70,12 @@ def inputs(root,config):
     required=set(["state_id","split","rollout_episode","step","graph_file","window_start","next_graph_file",
                   "action","action_name","would_truncate","demand_packets",*QUEUES,*ALLOCATIONS,*TARGETS,
                   "dropped_packets","task_completion","reward",*causal_features])
+    if timing_v2:
+        required.update({"observation_graph_file","observation_window_start","demand_graph_file","demand_window_start"})
     if not required.issubset(frame):
         raise ValueError(f"Missing outcome columns: {required-set(frame)}")
-    if frame[list(required)].isna().any().any() or not set(frame.split).issubset(data) or set(frame.split)!=set(data):
+    nullable={"next_graph_file"} if timing_v2 else set()
+    if frame[list(required-nullable)].isna().any().any() or not set(frame.split).issubset(data) or set(frame.split)!=set(data):
         raise ValueError("Missing values or invalid/missing outcome splits")
     boolean=frame.would_truncate.str.lower()
     if not boolean.isin(["true","false"]).all():
@@ -90,6 +95,8 @@ def inputs(root,config):
     if not grouped.size().eq(6).all() or not grouped.action.nunique().eq(6).all():
         raise ValueError("Missing/duplicate state actions")
     invariants=["split","rollout_episode","step","graph_file","window_start","next_graph_file","would_truncate","demand_packets",*QUEUES,*causal_features]
+    if timing_v2:
+        invariants.extend(["observation_graph_file","observation_window_start","demand_graph_file","demand_window_start"])
     if not grouped[invariants].nunique(dropna=False).eq(1).all().all():
         raise ValueError("State rows disagree on pre-action context")
     partitions={s:frame[frame.split.eq(s)].copy() for s in data}
@@ -100,19 +107,36 @@ def inputs(root,config):
         joined=source.loc[part.graph_file]
         if not np.array_equal(times.to_numpy(),joined.window_start.to_numpy()) or not np.allclose(part[causal_features],joined[causal_features],atol=1e-6,rtol=1e-8):
             raise ValueError("Outcome/causal identity mismatch")
-        next_times=source.loc[part.next_graph_file].window_start.to_numpy()
-        if not np.all(next_times-times.to_numpy()==np.timedelta64(60,"s")):
-            raise ValueError("Outcome crosses timestamp gap")
         env=EdgeIIoTRoutingEnv(data[split],calibration,saved)
         indices={name:i for i,name in enumerate(data[split].frame.graph_file)}
-        expected_truncation=np.array([int(step)+1>=min(saved["environment"]["episode_horizon"],saved["transition_generation"]["episode_horizon"]) or not env.valid_transition[indices[next_graph]]
-            for step,next_graph in zip(part.step,part.next_graph_file)])
+        if timing_v2:
+            previous=source.loc[part.observation_graph_file]
+            previous_times=pd.to_datetime(part.observation_window_start,errors="raise")
+            if not np.array_equal(previous_times.to_numpy(),previous.window_start.to_numpy()) or not np.all(times.to_numpy()-previous_times.to_numpy()==np.timedelta64(60,"s")):
+                raise ValueError("Observation/demand timing mismatch")
+            if not part.demand_graph_file.eq(part.graph_file).all() or not part.demand_window_start.eq(part.window_start).all():
+                raise ValueError("Demand identity mismatch")
+            expected_next=[data[split].frame.iloc[indices[name]+1].graph_file if indices[name]+1<data[split].size and env.valid_decision[indices[name]+1] else None for name in part.graph_file]
+            stored_next=[None if pd.isna(name) else name for name in part.next_graph_file]
+            if stored_next!=expected_next:
+                raise ValueError("Invalid successor identity")
+            expected_truncation=np.array([int(step)+1>=min(saved["environment"]["episode_horizon"],saved["transition_generation"]["episode_horizon"]) or next_graph is None
+                for step,next_graph in zip(part.step,expected_next)])
+        else:
+            next_times=source.loc[part.next_graph_file].window_start.to_numpy()
+            if not np.all(next_times-times.to_numpy()==np.timedelta64(60,"s")):
+                raise ValueError("Outcome crosses timestamp gap")
+            expected_truncation=np.array([int(step)+1>=min(saved["environment"]["episode_horizon"],saved["transition_generation"]["episode_horizon"]) or not env.valid_transition[indices[next_graph]]
+                for step,next_graph in zip(part.step,part.next_graph_file)])
         if not np.array_equal(expected_truncation,part.would_truncate.to_numpy()):
             raise ValueError("Outcome truncation flag mismatch")
         if not np.allclose(part.demand_packets,part.total_packets,atol=1e-6,rtol=1e-8):
             raise ValueError("Demand differs from total_packets")
         for row in part.itertuples(index=False):
-            state=DecisionState(row.demand_packets,tuple(getattr(row,k) for k in QUEUES),split,row.graph_file,row.window_start,scm.calibration_id)
+            state=DecisionState(row.demand_packets,tuple(getattr(row,k) for k in QUEUES),split,row.graph_file,row.window_start,scm.calibration_id,
+                schema_version=scm.schema_version,
+                observation_graph_file=row.observation_graph_file if timing_v2 else None,
+                observation_window_start=row.observation_window_start if timing_v2 else None)
             outcome=scm.intervene(state,int(row.action))
             if row.action_name!=outcome.action_name or not np.allclose([getattr(row,k) for k in ALLOCATIONS],outcome.allocation_fractions,atol=1e-10,rtol=0):
                 raise ValueError("Action profile mismatch")
@@ -128,12 +152,12 @@ def inputs(root,config):
         if not starts[split] or any(i not in env.valid_starts for i in starts[split]):
             raise ValueError("Invalid saved evaluation starts")
     agent=load_phase4_agent(paths["best_model_sha256"],device="cpu")
-    if agent.observation_space.shape!=(67,) or agent.action_space.n!=6:
+    if agent.observation_space.shape!=((68,) if timing_v2 else (67,)) or agent.action_space.n!=6:
         raise ValueError("DQN dimensions incompatible")
     provenance_paths=list(paths.values())+[reports/"run_manifest.json",artifacts/"environment_calibration.json",
         artifacts/"model_metadata.json",artifacts/"evaluation_start_states.json",root/"artifacts/phase2/refined_dag.json",
         root/"reports/phase2/causal_variable_decisions.json",root/"artifacts/phase2/causal_feature_mapping.json",
-        root/saved["phase3_artifacts_dir"]/"model_metadata.json",root/"config/phase4_config.json",
+        root/saved["phase3_artifacts_dir"]/"model_metadata.json",phase4_config_path,
         root/"src/counterfactual_controller.py",root/"src/phase5_surrogate.py",root/"src/phase5_pipeline.py",
         root/"src/rl_environment.py",root/"src/rl_agent.py"]
     hashes={str(p.relative_to(root)):file_sha256(p) for p in provenance_paths}
@@ -230,8 +254,11 @@ def evaluate(data,calibration,saved,starts,agent,controller,reports):
                                 a,_=agent.predict(obs,deterministic=True); a=int(np.asarray(a).item())
                             else:
                                 a=int(np.argmin(obs[-3:]))
-                            state=DecisionState(float(env.current_row.total_packets),tuple(env.queues),split,
-                                str(env.current_row.graph_file),env.current_row.window_start.isoformat(),controller.scm.calibration_id)
+                            state=DecisionState(env.announced_demand,tuple(env.queues),split,
+                                str(env.current_row.graph_file),env.current_row.window_start.isoformat(),controller.scm.calibration_id,
+                                schema_version=controller.scm.schema_version,
+                                observation_graph_file=str(env.observation_row.graph_file) if env.timing_v2 else None,
+                                observation_window_start=env.observation_row.window_start.isoformat() if env.timing_v2 else None)
                             predictions=controller.scm.evaluate_actions(state)
                             assessments=[controller.assess(o)[0] for o in predictions]
                             diagnostics={"feasible":any(not r for r in assessments),"violated":bool(assessments[a])}
@@ -342,7 +369,7 @@ def audit_outputs(root,artifacts,reports):
     with (reports/"explanations.jsonl").open() as handle:
         for line in handle:
             record=json.loads(line); state=DecisionState(**{**record["state"],"queues":tuple(record["state"]["queues"])})
-            decision=controller.select_action(np.zeros(67),state,record["q_values"])
+            decision=controller.select_action(np.zeros(68 if scm.schema_version==2 else 67),state,record["q_values"])
             if decision.executed_action!=record["executed_action"] or decision.status!=record["status"] or len(record["outcomes"])!=6:
                 raise ValueError("Explanation selection audit failed")
             for actual,stored in zip(decision.outcomes,record["outcomes"]):
@@ -410,7 +437,7 @@ def execute(root,config,artifacts,reports,smoke=False):
     write_json(artifacts/"surrogate_metadata.json",metadata)
     write_json(artifacts/"residual_calibration.json",{k:metadata[k] for k in ("residual_radius","nominal_coverage","support_min","support_max","calibration_states","interval_status")})
     write_json(artifacts/"evaluation_start_states.json",starts)
-    write_json(artifacts/"controller_metadata.json",{"schema_version":1,"backend":"exact_simulator_scm",
+    write_json(artifacts/"controller_metadata.json",{"schema_version":scm.schema_version,"backend":"exact_simulator_scm",
         "surrogate_controls_actions":False,"one_step_only":True,"state_information":["actual_demand","actual_queues","frozen_embedding"],
         "resolved_limits":controller.limits,"seed":config["seed"],"test_usage":"evaluation after surrogate and safety configuration frozen",
         "metric_status":{"latency_proxy_ms":"synthetic","energy_proxy":"synthetic"}})
@@ -437,13 +464,13 @@ def run(config_path,validate_only=False,smoke_test=False,audit_only=False):
     root=Path.cwd().resolve(); config=read_json(config_path)
     artifacts=(root/config["artifacts_dir"]).resolve(); reports=(root/config["reports_dir"]).resolve()
     for folder,parent in ((artifacts,root/"artifacts"),(reports,root/"reports")):
-        if folder.parent!=parent.resolve() or folder.name!="phase5": raise ValueError("Outputs must be confined to Phase 5 directories")
+        if folder.parent!=parent.resolve() or folder.name not in ("phase5", "phase5_v2", "phase5_v3"): raise ValueError("Outputs must be confined to Phase 5 directories")
     if audit_only:
         audit_outputs(root,artifacts,reports); return
     if validate_only:
         *_,audit=inputs(root,config); LOG.info("PHASE5_INPUT_CHECKS_PASSED: %s",audit); return
     if smoke_test:
-        with tempfile.TemporaryDirectory(prefix="phase5_smoke_") as temporary:
+        with tempfile.TemporaryDirectory(prefix="phase5_smoke_",dir=root) as temporary:
             a=Path(temporary)/"artifacts"; r=Path(temporary)/"reports"; a.mkdir(); r.mkdir()
             execute(root,config,a,r,smoke=True)
         LOG.info("PHASE5_SMOKE_TEST_PASSED"); return
