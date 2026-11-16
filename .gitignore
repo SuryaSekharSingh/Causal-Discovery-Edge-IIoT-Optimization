@@ -19,3 +19,4 @@ data/*.csv
 
 __pycache__/
 *.pyc
+presentations/
