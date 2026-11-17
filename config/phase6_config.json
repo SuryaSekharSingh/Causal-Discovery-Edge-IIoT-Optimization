@@ -5,7 +5,7 @@
   "reports_dir": "reports/phase6_v3",
   "training_seeds": [11, 23, 42, 67, 101],
   "training_timesteps": 100000,
-  "max_training_workers": 4,
+  "max_training_workers": 2,
   "bootstrap_resamples": 2000,
   "shift_onset_step": 8,
   "shift_duration_steps": 16,

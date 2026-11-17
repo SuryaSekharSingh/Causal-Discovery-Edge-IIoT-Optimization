@@ -4,18 +4,26 @@ venv/
 env/
 ENV/
 
-# Local dataset files
+# Local source dataset
 DNN-EdgeIIoT-dataset.csv
-**/*.csv
 
-data/**/*.csv
+# Generated pipeline data
+/data/raw/**
+/data/interim/**
+/data/processed/**
+!/data/.gitkeep
 
-data/*.csv
+# Generated model artifacts
+/artifacts/**
 
-# Keep the directory structure in Git without committing CSV files
-!data/.gitkeep
-!data/raw/.gitkeep
-!data/interim/.gitkeep
+# Keep the reports directory, but not generated reports
+/reports/**
+!/reports/.gitkeep
+
+# Local build and cache files
+presentations/.build/
+__pycache__/
+*.pyc
 
 __pycache__/
 *.pyc

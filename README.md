@@ -1,5 +1,23 @@
 # Causal Discovery Edge-IIoT Optimization
 
+## Download the dataset
+
+Download the Edge-IIoTset dataset from [IEEE DataPort](https://ieee-dataport.org/documents/edge-iiotset-new-comprehensive-realistic-cyber-security-dataset-iot-and-iiot-applications) or the [dataset authors' Kaggle page](https://www.kaggle.com/datasets/mohamedamineferrag/edgeiiotset-cyber-security-dataset-of-iot-iiot). Extract `DNN-EdgeIIoT-dataset.csv` into the repository root (next to this README). Phase 1 reads the file from that location; the dataset is not stored in Git.
+
+## Run the complete pipeline
+
+From the repository root, run all six phases in order with the timing-corrected Phase 4/5 configurations:
+
+```powershell
+python -m src.main
+```
+
+The integrated command uses the default configuration files under `config/`, validates that the Phase 1 source dataset is available, and stops before execution if outputs from a prior run are present. To replace outputs produced by this six-phase chain, pass `--overwrite`. It preserves the source dataset, configuration files, presentations, and legacy Phase 4/5 outputs. To select different phase configurations, pass `--phase1-config` through `--phase6-config`; `--config` remains an alias for `--phase1-config`.
+
+The full run includes model training and can take substantial time. Each phase can still be run independently with its `python -m src.phaseN_pipeline` command below.
+
+Generated datasets, model artifacts, and reports are excluded from Git to keep the repository focused on source and research materials. The pipeline recreates these outputs when run; `reports/` is retained in the repository as an empty output location. Related papers are collected under `research/`.
+
 ## Phase 1: temporal graph construction
 
 Phase 1 audits the verified Edge-IIoTset schema, copies the source CSV into `data/raw/` without modifying it, cleans records, creates a deterministic temporally stratified development sample, and writes validated directed PyTorch Geometric snapshots.
@@ -66,6 +84,8 @@ python -m src.phase6_pipeline --config config/phase6_config.json
 python -m src.phase6_pipeline --config config/phase6_config.json --audit-only
 ```
 
+The one-command workflow runs these corrected Phase 4/5 configurations automatically.
+
 Replay-corrected Phase 4/5 artifacts are stored under `artifacts/phase4_v3/` and `artifacts/phase5_v3/`, with corresponding reports and `data/interim/phase4_v3_action_outcomes.csv`. Timing-v2 truncations are treated as learning terminals, so DQN does not bootstrap from a placeholder observation after the last recorded window. Earlier `phase4_v2`/`phase5_v2` outputs and the interrupted `phase6` directory are retained but superseded; do not use them for final conclusions. Phase 6 consumes the frozen v3 artifacts, trains matched DQN ablations with previous-window causal variables or only demand and queues, and compares each representation with and without exact safety screening. It also evaluates synthetic announced-demand surges without changing historical graph embeddings. The final run writes `artifacts/phase6_v3/` and `reports/phase6_v3/` and refuses pre-existing outputs.
 
 All reported latency and energy values remain synthetic proxies. `pdr` is immediate service of current arrivals, not measured end-to-end delivery. The two original split boundaries still share partial 60-second graph windows; this was intentionally left unchanged and is recorded in the Phase 6 boundary audit. Phase 6 does not establish real-world deployment performance, topology-attack detection, or causal action effects from the Phase 2 observational DAG.
@@ -81,7 +101,7 @@ py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
-python -m src.main --config config/phase1_config.json
+python -m src.main
 ```
 
 ### Method 2: User-level virtual environment (working workaround)
@@ -92,9 +112,7 @@ On some Windows machines, the project-local `.venv` can run into Windows Applica
 & "$env:LOCALAPPDATA\Python\pythoncore-3.10-64\python.exe" -m venv "$env:LOCALAPPDATA\venvs\edge-iiot"
 & "$env:LOCALAPPDATA\venvs\edge-iiot\Scripts\python.exe" -m pip install --upgrade pip
 & "$env:LOCALAPPDATA\venvs\edge-iiot\Scripts\python.exe" -m pip install -r requirements.txt
-& "$env:LOCALAPPDATA\venvs\edge-iiot\Scripts\python.exe" -m src.main --config config/phase1_config.json
-& "$env:LOCALAPPDATA\venvs\edge-iiot\Scripts\python.exe" -m src.phase2_pipeline --config config/phase2_config.json
-& "$env:LOCALAPPDATA\Python\pythoncore-3.10-64\python.exe" -m src.phase3_pipeline --config config/phase3_config.json
+& "$env:LOCALAPPDATA\venvs\edge-iiot\Scripts\python.exe" -m src.main
 ```
 
 If you are already inside the project folder and want to activate that environment manually:
